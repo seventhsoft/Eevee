@@ -1,0 +1,25 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.lafortuna.delsaber.service;
+
+import com.lafortuna.delsaber.model.Persona;
+import com.lafortuna.delsaber.model.PersonaUsuarioPerfil;
+import com.lafortuna.delsaber.model.Usuario;
+import java.util.List;
+
+/**
+ *
+ * @author Cliente
+ */
+public interface UsuarioService {
+    Usuario getUsuarioByUserName(String username);
+    List<Usuario>getUsuarioAll();
+    Usuario getUsuarioById(Integer idUsuario);
+    void insertUsuarioPersonaPerfil(PersonaUsuarioPerfil personaUsuarioPerfil);
+    void deleteUsuarioPersonaPerfil(PersonaUsuarioPerfil personaUsuarioPerfil);
+    void updateUsuarioPersona(PersonaUsuarioPerfil personaUsuarioPerfil);
+    void updateJugadorActivo(PersonaUsuarioPerfil personaUsuarioPerfil);
+}
