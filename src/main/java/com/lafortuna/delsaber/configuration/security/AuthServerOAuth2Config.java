@@ -45,15 +45,19 @@ public class AuthServerOAuth2Config extends AuthorizationServerConfigurerAdapter
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.jdbc(dataSource);
-           /*     .withClient("webClient")
+              /*  .withClient("webClient")
                 .secret("secret")
                 .authorizedGrantTypes("password","authorization_code", "refresh_token")
                 .scopes("read", "write")
+                .accessTokenValiditySeconds(21600)
+                .refreshTokenValiditySeconds(21600)
                 .and()
                 .withClient("mobileClient")
                 .secret("secretMobile")
                 .authorizedGrantTypes("password","authorization_code", "refresh_token")
-                .scopes("read", "write"); */
+                .scopes("read", "write")
+                .accessTokenValiditySeconds(21600)
+                .refreshTokenValiditySeconds(21600); */
                 
     }
     
@@ -65,6 +69,7 @@ public class AuthServerOAuth2Config extends AuthorizationServerConfigurerAdapter
         endpoints
                 .tokenStore(tokenStore())
                 .tokenEnhancer(tokenEnhancerChain)
+                .tokenServices(tokenServices())
                 .authenticationManager(authenticationManager);
     }
     
@@ -83,6 +88,7 @@ public class AuthServerOAuth2Config extends AuthorizationServerConfigurerAdapter
     public DefaultTokenServices tokenServices(){
         final DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
         defaultTokenServices.setTokenStore(tokenStore());
+        defaultTokenServices.setTokenEnhancer(tokenEnhancer());
         defaultTokenServices.setSupportRefreshToken(Boolean.TRUE);
         defaultTokenServices.setAccessTokenValiditySeconds(21600);
         defaultTokenServices.setRefreshTokenValiditySeconds(21600);
