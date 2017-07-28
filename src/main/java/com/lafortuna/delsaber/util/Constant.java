@@ -20,4 +20,6 @@ public class Constant {
     //Catálogo de perfiles
     public static final String TEST_MAIL_TEMPLATE = "testTemplate";
     public static final String RESGISTRO_MAIL_TEMPLATE = "registro";
+    //Series
+    public static final int SERIE_UNO = 1 ;
 }

@@ -19,7 +19,7 @@ public class Nivel implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private Integer idNivel;
-    private String descripcion;
+    private Integer descripcion;
     private Integer series;
     private Integer tiempoPregunta;
     private Boolean activo;
@@ -42,11 +42,11 @@ public class Nivel implements Serializable {
         this.idNivel = idNivel;
     }
 
-    public String getDescripcion() {
+    public Integer getDescripcion() {
         return descripcion;
     }
 
-    public void setDescripcion(String descripcion) {
+    public void setDescripcion(Integer descripcion) {
         this.descripcion = descripcion;
     }
 

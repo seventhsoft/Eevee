@@ -21,6 +21,7 @@ public class JugadorNivel implements Serializable {
     private Jugador jugador;
     private Nivel nivel;
     private List<Serie> serieList;
+    private Integer dNivel;
 
     public JugadorNivel() {
     }
@@ -67,5 +68,19 @@ public class JugadorNivel implements Serializable {
 
     public void setSerieList(List<Serie> serieList) {
         this.serieList = serieList;
+    }
+
+    /**
+     * @return the dNivel
+     */
+    public Integer getdNivel() {
+        return dNivel;
+    }
+
+    /**
+     * @param dNivel the dNivel to set
+     */
+    public void setdNivel(Integer dNivel) {
+        this.dNivel = dNivel;
     }
 }
