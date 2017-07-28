@@ -130,4 +130,7 @@ public interface UsuarioMapper {
     
     @Update("update usuario set activo = #{activo} where id_usuario = #{idUsuario} ")
 	void updateJugadorActivo(PersonaUsuarioPerfil personaUsuarioPerfil);
+    
+    @Update("update usuario set password = #{password} where id_usuario = #{idUsuario} ")
+	void updateRecuperarPassword(PersonaUsuarioPerfil personaUsuarioPerfil);
 }

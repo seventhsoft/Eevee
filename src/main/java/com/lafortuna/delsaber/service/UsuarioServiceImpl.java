@@ -164,4 +164,43 @@ public class UsuarioServiceImpl extends GenericService implements UserDetailsSer
             throw new InternalServerException("Error al actualizar jugador activo ex: "+e);
         }
     }
+
+    @Override
+    public void postRecuperarPassword(PersonaUsuarioPerfil personaUsuarioPerfil) {
+        try{
+            if(personaUsuarioPerfil.getUsuario() != null){
+                Usuario usuario = this.getUsuarioByUserName(personaUsuarioPerfil.getUsuario());
+                if(!objetoValido(usuario)){
+                    throw new NoContentException(Constant.NO_CONTENT_MESSAGE);
+                }
+                if((usuario.getPersona().getCorreo() != null && usuario.getIdUsuario() != null 
+                        && !usuario.getActivo())){
+                    String llave = "1";
+                    String parametros = "#?idUsuario="+usuario.getIdUsuario().toString()
+                            +"&key="+llave;
+                    this.log.info(parametros);
+                    this.mailService.enviaCorreoRecuperar(usuario.getPersona().getCorreo() ,usuario.getUsuario(),parametros);
+                } else {
+                    throw new NoContentException(Constant.NO_CONTENT_MESSAGE);
+                }
+            }
+        }catch(DataAccessException e){
+            this.log.error(this.getClass().getName() + ":postRecuperarPassword ex:" + e);
+        }
+    }
+
+    @Override
+    public void updateRecuperarPassword(PersonaUsuarioPerfil personaUsuarioPerfil) {
+        try {
+            if(personaUsuarioPerfil.getIdUsuario() != null && personaUsuarioPerfil.getPassword() != null)
+            {   
+                personaUsuarioPerfil.setPassword(this.passwordEncoder.encode(personaUsuarioPerfil.getPassword()));
+                this.usuarioMapper.updateRecuperarPassword(personaUsuarioPerfil);
+            }
+        } catch (DataAccessException e) {
+            this.log.error(this.getClass().getName() + ":updateRecuperarPassword ex:" + e);
+            throw new InternalServerException("Error al actualizar el password del usuario ex: "+e);           
+        }  
+    }
+    
 }

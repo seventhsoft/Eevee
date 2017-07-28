@@ -82,4 +82,14 @@ public class UsuarioRestService {
         this.usuarioService.updateJugadorActivo(p);
         return "usuario activo!";
     }
+    
+    @RequestMapping(value = "/recuperarPassword",method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public void postRecuperarPassword(@RequestBody PersonaUsuarioPerfil personaUsuarioPerfil) {
+        this.usuarioService.postRecuperarPassword(personaUsuarioPerfil);
+    }
+    
+    @RequestMapping(value = "/recuperarPassword",method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    public void updateRecuperarPassword(@RequestBody PersonaUsuarioPerfil personaUsuarioPerfil) {
+        this.usuarioService.updateRecuperarPassword(personaUsuarioPerfil);
+    }
 }

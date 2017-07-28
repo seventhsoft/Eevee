@@ -22,4 +22,6 @@ public interface UsuarioService {
     void deleteUsuarioPersonaPerfil(PersonaUsuarioPerfil personaUsuarioPerfil);
     void updateUsuarioPersona(PersonaUsuarioPerfil personaUsuarioPerfil);
     void updateJugadorActivo(PersonaUsuarioPerfil personaUsuarioPerfil);
+    void postRecuperarPassword(PersonaUsuarioPerfil personaUsuarioPerfil);
+    void updateRecuperarPassword(PersonaUsuarioPerfil p);
 }

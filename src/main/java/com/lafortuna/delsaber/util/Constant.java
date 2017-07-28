@@ -22,4 +22,6 @@ public class Constant {
     public static final String RESGISTRO_MAIL_TEMPLATE = "registro";
     //Series
     public static final int SERIE_UNO = 1 ;
+    public static final String RECUPERAR_MAIL_TEMPLATE = "recuperar";
+    public static final String RECUPERAR_RUTA = "http://localhost:8383/LSF-FRONT/recuperarPassword.html";
 }

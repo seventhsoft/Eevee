@@ -51,4 +51,25 @@ public class MailService {
             log.error(this.getClass().getName() + "Error al mandar correo html " + e);
         }
     }
+    
+    @Async
+    public void enviaCorreoRecuperar(String toMail, String usuario, String parametros){
+        MimeMessagePreparator messagePreparator = mimeMessage ->{
+            MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
+            messageHelper.setFrom("info@juegakuni.mx");
+            messageHelper.setTo(toMail);
+            messageHelper.setSubject("Completa tu solicitud de restablecimiento de contrase\u00f1a");
+            Map<String, String> params = new HashMap<>();
+            params.put("usuario", usuario);
+            params.put("ruta",Constant.RECUPERAR_RUTA);
+            params.put("parametros", parametros);
+            String content = mailContentBuilder.build(Constant.RECUPERAR_MAIL_TEMPLATE, params);
+            messageHelper.setText(content, true);
+        };
+        try{
+            javaMailSender.send(messagePreparator);
+        } catch (MailException e){
+            log.error(this.getClass().getName() + "Error al mandar recuperar html " + e);
+        }
+    }
 }
