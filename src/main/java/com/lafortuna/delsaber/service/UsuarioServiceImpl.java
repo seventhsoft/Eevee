@@ -112,7 +112,8 @@ public class UsuarioServiceImpl extends GenericService implements UserDetailsSer
                     }
                     this.usuarioMapper.insertJugador(personaUsuarioPerfil);
                     if(personaUsuarioPerfil.isActivo().equals(Boolean.FALSE)){
-                        this.mailService.enviaCorreoRegistro(personaUsuarioPerfil.getCorreo(), personaUsuarioPerfil.getIdUsuario());
+                        String parametros = "#?tipo=1"+"&iu="+personaUsuarioPerfil.getIdUsuario();
+                        this.mailService.enviaCorreoRegistro(personaUsuarioPerfil.getCorreo(), parametros);
                     }
                     break;
                 case Constant.PATROCINADOR:
@@ -184,13 +185,12 @@ public class UsuarioServiceImpl extends GenericService implements UserDetailsSer
     @Transactional(rollbackFor = Exception.class)
     public void postRecuperarPassword(PersonaUsuarioPerfil personaUsuarioPerfil) {
         try{
-            PasswordToken pt = this.passwordTokenMapper.getPasswordToken(personaUsuarioPerfil.getIdUsuario());
-            
             if(objetoValido(personaUsuarioPerfil.getUsuario()) ) {
                 Usuario usuario = getUsuarioByUserName(personaUsuarioPerfil.getUsuario());
                 if(!objetoValido(usuario)){
                     throw new NoContentException(Constant.NO_CONTENT_MESSAGE);
                 }
+                PasswordToken pt = this.passwordTokenMapper.getPasswordToken(usuario.getIdUsuario());
                 if(!objetoValido(pt) ) {
                     String llave = UUID.randomUUID().toString();
                     llave = llave.replaceAll("-", "");
@@ -200,7 +200,7 @@ public class UsuarioServiceImpl extends GenericService implements UserDetailsSer
                     this.passwordTokenMapper.insertPasswordToken(pt);
                 }                
                 
-                String parametros = "#?iu="+pt.getIdUsuario()+"&key="+pt.getToken();
+                String parametros = "#?tipo=2"+"&iu="+pt.getIdUsuario()+"&key="+pt.getToken();
                 this.mailService.enviaCorreoRecuperar(usuario.getPersona().getCorreo() ,usuario.getUsuario(),parametros);
             }
         }catch(DataAccessException e){

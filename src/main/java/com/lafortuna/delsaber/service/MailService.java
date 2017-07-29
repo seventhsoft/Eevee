@@ -34,14 +34,15 @@ public class MailService {
     public MailContentBuilder mailContentBuilder;
     
     @Async
-    public void enviaCorreoRegistro(String toMail, Integer idUsuario) {
+    public void enviaCorreoRegistro(String toMail, String parametros) {
         MimeMessagePreparator messagePreparator = mimeMessage -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
             messageHelper.setFrom("info@juegakuni.mx");
             messageHelper.setTo(toMail);
             messageHelper.setSubject("Bienvenido a Kuni!");
             Map<String, String> params = new HashMap<>();
-            params.put("id", idUsuario.toString());
+            params.put("ruta",Constant.RUTA_HOME_KUNI);
+            params.put("parametros", parametros);
             String content = mailContentBuilder.build(Constant.RESGISTRO_MAIL_TEMPLATE, params);
             messageHelper.setText(content, true);
         };
@@ -61,7 +62,7 @@ public class MailService {
             messageHelper.setSubject("Completa tu solicitud de restablecimiento de contrase\u00f1a");
             Map<String, String> params = new HashMap<>();
             params.put("usuario", usuario);
-            params.put("ruta",Constant.RECUPERAR_RUTA);
+            params.put("ruta",Constant.RUTA_HOME_KUNI);
             params.put("parametros", parametros);
             String content = mailContentBuilder.build(Constant.RECUPERAR_MAIL_TEMPLATE, params);
             messageHelper.setText(content, true);
