@@ -8,27 +8,31 @@ package com.lafortuna.delsaber.service;
 import com.lafortuna.delsaber.exception.ConflictException;
 import com.lafortuna.delsaber.exception.InternalServerException;
 import com.lafortuna.delsaber.exception.NoContentException;
+import com.lafortuna.delsaber.model.PasswordToken;
 import com.lafortuna.delsaber.model.Perfil;
-import com.lafortuna.delsaber.model.Persona;
 import com.lafortuna.delsaber.model.PersonaUsuarioPerfil;
 import com.lafortuna.delsaber.model.Role;
 import com.lafortuna.delsaber.model.User;
 import com.lafortuna.delsaber.model.Usuario;
+import com.lafortuna.delsaber.repository.PasswordTokenMapper;
 import com.lafortuna.delsaber.repository.PerfilMapper;
 import com.lafortuna.delsaber.repository.UsuarioMapper;
 import com.lafortuna.delsaber.util.Constant;
 import java.util.List;
+import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.mail.MailException;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 /**
  *
@@ -47,6 +51,9 @@ public class UsuarioServiceImpl extends GenericService implements UserDetailsSer
     
     @Autowired
     private MailService mailService;
+    
+    @Autowired
+    private PasswordTokenMapper passwordTokenMapper;
     
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -136,22 +143,28 @@ public class UsuarioServiceImpl extends GenericService implements UserDetailsSer
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void updateUsuarioPersona(PersonaUsuarioPerfil personaUsuarioPerfil) {
+    public void updateUsuarioPersona(PersonaUsuarioPerfil personaUsuarioPerfil, Authentication auth) {
         try {
-            if(personaUsuarioPerfil.getUsuario() != null || personaUsuarioPerfil.getPassword() != null)
-            {
+            personaUsuarioPerfil.setIdUsuario(getIdUser(auth));
+            personaUsuarioPerfil.setIdPersona(getidPersona(auth));
+            
+            encodePassword(personaUsuarioPerfil);
+            if( personaUsuarioPerfil.getPassword() != null) {
                 this.usuarioMapper.updateUsuario(personaUsuarioPerfil);
-            }else if(personaUsuarioPerfil.getNombre() != null || personaUsuarioPerfil.getApaterno() != null || personaUsuarioPerfil.getAmaterno() != null || personaUsuarioPerfil.getCorreo() != null)
-            {
-                this.usuarioMapper.updatePersona(personaUsuarioPerfil);
-            }else if(personaUsuarioPerfil.getNombre() != null && personaUsuarioPerfil.getApaterno() != null && personaUsuarioPerfil.getAmaterno() != null && personaUsuarioPerfil.getCorreo() != null && personaUsuarioPerfil.getUsuario() != null && personaUsuarioPerfil.getPassword() != null){
-                this.usuarioMapper.updateUsuario(personaUsuarioPerfil);
+            } 
+            if(personaUsuarioPerfil.getNombre() != null || personaUsuarioPerfil.getApaterno() != null) {
                 this.usuarioMapper.updatePersona(personaUsuarioPerfil);
             }
         } catch (DataAccessException e) {
             this.log.error(this.getClass().getName() + ":updateUsuarioPersona ex:" + e);
             throw new InternalServerException("Error al actualizar usuario ex: "+e);           
         }  
+    }
+    
+    private void encodePassword(PersonaUsuarioPerfil pu ){
+        if(objetoValido(pu) && !StringUtils.isEmpty(pu.getPassword())) {
+            pu.setPassword(this.passwordEncoder.encode(pu.getPassword()));
+        }
     }
 
     @Override
@@ -166,37 +179,50 @@ public class UsuarioServiceImpl extends GenericService implements UserDetailsSer
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void postRecuperarPassword(PersonaUsuarioPerfil personaUsuarioPerfil) {
         try{
-            if(personaUsuarioPerfil.getUsuario() != null){
-                Usuario usuario = this.getUsuarioByUserName(personaUsuarioPerfil.getUsuario());
+            PasswordToken pt = this.passwordTokenMapper.getPasswordToken(personaUsuarioPerfil.getIdUsuario());
+            
+            if(objetoValido(personaUsuarioPerfil.getUsuario()) ) {
+                Usuario usuario = getUsuarioByUserName(personaUsuarioPerfil.getUsuario());
                 if(!objetoValido(usuario)){
                     throw new NoContentException(Constant.NO_CONTENT_MESSAGE);
                 }
-                if((usuario.getPersona().getCorreo() != null && usuario.getIdUsuario() != null 
-                        && !usuario.getActivo())){
-                    String llave = "1";
-                    String parametros = "#?idUsuario="+usuario.getIdUsuario().toString()
-                            +"&key="+llave;
-                    this.log.info(parametros);
-                    this.mailService.enviaCorreoRecuperar(usuario.getPersona().getCorreo() ,usuario.getUsuario(),parametros);
-                } else {
-                    throw new NoContentException(Constant.NO_CONTENT_MESSAGE);
-                }
+                if(!objetoValido(pt) ) {
+                    String llave = UUID.randomUUID().toString();
+                    llave = llave.replaceAll("-", "");
+                    pt = new PasswordToken();
+                    pt.setIdUsuario(usuario.getIdUsuario());
+                    pt.setToken(llave);                
+                    this.passwordTokenMapper.insertPasswordToken(pt);
+                }                
+                
+                String parametros = "#?iu="+pt.getIdUsuario()+"&key="+pt.getToken();
+                this.mailService.enviaCorreoRecuperar(usuario.getPersona().getCorreo() ,usuario.getUsuario(),parametros);
             }
         }catch(DataAccessException e){
             this.log.error(this.getClass().getName() + ":postRecuperarPassword ex:" + e);
+            throw new InternalServerException("Error al cambiar password ex: " + e);
         }
     }
 
     @Override
-    public void updateRecuperarPassword(PersonaUsuarioPerfil personaUsuarioPerfil) {
+    @Transactional(rollbackFor = Exception.class)
+    public void updateRecuperarPassword(PersonaUsuarioPerfil personaUsuarioPerfil, String token) {
         try {
-            if(personaUsuarioPerfil.getIdUsuario() != null && personaUsuarioPerfil.getPassword() != null)
-            {   
-                personaUsuarioPerfil.setPassword(this.passwordEncoder.encode(personaUsuarioPerfil.getPassword()));
-                this.usuarioMapper.updateRecuperarPassword(personaUsuarioPerfil);
+            PasswordToken pt = this.passwordTokenMapper.getPasswordToken(personaUsuarioPerfil.getIdUsuario());
+            if(objetoValido(pt) && !pt.isActivo() && pt.getToken().equals(token)) {
+                if(personaUsuarioPerfil.getIdUsuario() != null && personaUsuarioPerfil.getPassword() != null) {   
+                    personaUsuarioPerfil.setPassword(this.passwordEncoder.encode(personaUsuarioPerfil.getPassword()));
+                    this.usuarioMapper.updateRecuperarPassword(personaUsuarioPerfil);
+                    pt.setActivo(Boolean.TRUE);
+                    this.passwordTokenMapper.updatePasswordToken(pt);
+                }
+            } else {
+                throw new NoContentException("Enlace caducado");
             }
+            
         } catch (DataAccessException e) {
             this.log.error(this.getClass().getName() + ":updateRecuperarPassword ex:" + e);
             throw new InternalServerException("Error al actualizar el password del usuario ex: "+e);           

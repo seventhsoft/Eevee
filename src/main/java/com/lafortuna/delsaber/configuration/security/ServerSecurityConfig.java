@@ -59,6 +59,7 @@ public class ServerSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/usuarios").permitAll()
                 .antMatchers(HttpMethod.GET, "/usuarios/test").permitAll()
                 .antMatchers(HttpMethod.GET, "/usuarios/jugadores/activar/**").permitAll()
+                .antMatchers("/usuarios/recuperar/password/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
