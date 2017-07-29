@@ -126,6 +126,7 @@ public class UsuarioServiceImpl extends GenericService implements UserDetailsSer
             }
         } catch (MailException | DataAccessException e) {
             this.log.error(this.getClass().getName() + ":insertUsuarioPersonaPerfil ex:" + e);
+            throw new InternalServerException("Error al guardar usuario ex: "+e); 
         }
     }
 
@@ -138,6 +139,7 @@ public class UsuarioServiceImpl extends GenericService implements UserDetailsSer
             this.usuarioMapper.deletePersona(personaUsuarioPerfil);
         } catch (DataAccessException e) {
             this.log.error(this.getClass().getName() + ":deleteUsuarioPersonaPerfil ex:" + e);
+            throw new InternalServerException("Error al eliminar usuario ex: "+e); 
         }
     }
 
