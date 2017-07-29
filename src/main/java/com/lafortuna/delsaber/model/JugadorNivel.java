@@ -5,6 +5,7 @@
  */
 package com.lafortuna.delsaber.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import java.io.Serializable;
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
  *
  * @author Cliente
  */
-
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class JugadorNivel implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -21,7 +22,7 @@ public class JugadorNivel implements Serializable {
     private Jugador jugador;
     private Nivel nivel;
     private List<Serie> serieList;
-    private Integer dNivel;
+    private Integer idNivel;
 
     public JugadorNivel() {
     }
@@ -71,16 +72,16 @@ public class JugadorNivel implements Serializable {
     }
 
     /**
-     * @return the dNivel
+     * @return the idNivel
      */
-    public Integer getdNivel() {
-        return dNivel;
+    public Integer getIdNivel() {
+        return idNivel;
     }
 
     /**
-     * @param dNivel the dNivel to set
+     * @param idNivel
      */
-    public void setdNivel(Integer dNivel) {
-        this.dNivel = dNivel;
+    public void setIdNivel(Integer idNivel) {
+        this.idNivel = idNivel;
     }
 }

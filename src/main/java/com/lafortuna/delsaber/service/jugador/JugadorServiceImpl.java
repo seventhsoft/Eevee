@@ -8,11 +8,14 @@ package com.lafortuna.delsaber.service.jugador;
 import com.lafortuna.delsaber.exception.InternalServerException;
 import com.lafortuna.delsaber.model.Concurso;
 import com.lafortuna.delsaber.model.JugadorNivel;
+import com.lafortuna.delsaber.model.Nivel;
 import com.lafortuna.delsaber.repository.ConcursoMapper;
 import com.lafortuna.delsaber.repository.JugadorNivelMapper;
+import com.lafortuna.delsaber.repository.NivelMapper;
 import com.lafortuna.delsaber.service.GenericService;
 import com.lafortuna.delsaber.util.Constant;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -32,6 +35,9 @@ public class JugadorServiceImpl extends GenericService implements JugadorService
     @Autowired
     private JugadorNivelMapper jugadorNivelMapper;
     
+    @Autowired
+    private NivelMapper nivelMapper;
+    
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Map<String, Object> getFechaConcursoActual(Authentication auth) { 
@@ -43,12 +49,22 @@ public class JugadorServiceImpl extends GenericService implements JugadorService
             Integer idJugador = this.getidJugadorByUser(auth);
             JugadorNivel jugadorNivel = this.jugadorNivelMapper.getJugadorNivelByIdJugador(idJugador);
             
-            if(objetoValido(jugadorNivel)) {
-                result.put("concurso", concurso);
-            } else {
+            if(!objetoValido(jugadorNivel)) { 
+                List<Nivel> niveles = this.nivelMapper.getNivelByIdConcurso(concurso.getIdConcurso());
+                jugadorNivel = new JugadorNivel();
+                
+                for(Nivel n : niveles){
+                    if(n.getIdNivel().equals(Constant.NIVEL_UNO)){
+                        jugadorNivel.setIdNivel(n.getIdNivel());
+                    }
+                }
+  
                 jugadorNivel.setIdJugadorNivel(idJugador);
                 jugadorNivel.setSerieActual(Constant.SERIE_UNO);
+                this.jugadorNivelMapper.saveJugadorNivel(jugadorNivel);
             }
+            result.put("jugadorNivel", jugadorNivel);
+            
         }
         return result;
     }
