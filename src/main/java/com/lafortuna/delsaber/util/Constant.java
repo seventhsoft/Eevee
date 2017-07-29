@@ -23,5 +23,5 @@ public class Constant {
     //Series
     public static final int SERIE_UNO = 1 ;
     public static final String RECUPERAR_MAIL_TEMPLATE = "recuperar";
-    public static final String RECUPERAR_RUTA = "http://localhost:8383/LSF-FRONT/recuperarPassword.html";
+    public static final String RUTA_HOME_KUNI = "http://localhost:8383/LSF-FRONT/index.html";
 }
