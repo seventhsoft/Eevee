@@ -8,6 +8,7 @@ package com.lafortuna.delsaber.service;
 import com.lafortuna.delsaber.exception.ConflictException;
 import com.lafortuna.delsaber.exception.InternalServerException;
 import com.lafortuna.delsaber.exception.NoContentException;
+import com.lafortuna.delsaber.exception.NonAuthoritativeInformation;
 import com.lafortuna.delsaber.model.PasswordToken;
 import com.lafortuna.delsaber.model.Perfil;
 import com.lafortuna.delsaber.model.PersonaUsuarioPerfil;
@@ -190,6 +191,9 @@ public class UsuarioServiceImpl extends GenericService implements UserDetailsSer
                 if(!objetoValido(usuario)){
                     throw new NoContentException(Constant.NO_CONTENT_MESSAGE);
                 }
+                if(usuario.isFacebook()){
+                    throw new NonAuthoritativeInformation("Usuario de facebook!");
+                }
                 PasswordToken pt = this.passwordTokenMapper.getPasswordToken(usuario.getIdUsuario());
                 if(!objetoValido(pt) ) {
                     String llave = UUID.randomUUID().toString();
@@ -203,7 +207,7 @@ public class UsuarioServiceImpl extends GenericService implements UserDetailsSer
                 String parametros = "#?tipo=2"+"&iu="+pt.getIdUsuario()+"&key="+pt.getToken();
                 this.mailService.enviaCorreoRecuperar(usuario.getPersona().getCorreo() ,usuario.getUsuario(),parametros);
             }
-        }catch(DataAccessException e){
+        }catch(MailException | DataAccessException e){
             this.log.error(this.getClass().getName() + ":postRecuperarPassword ex:" + e);
             throw new InternalServerException("Error al cambiar password ex: " + e);
         }
