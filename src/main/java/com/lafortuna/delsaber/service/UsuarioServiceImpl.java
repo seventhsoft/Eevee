@@ -26,6 +26,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.mail.MailException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -151,23 +152,28 @@ public class UsuarioServiceImpl extends GenericService implements UserDetailsSer
         try {
             personaUsuarioPerfil.setIdUsuario(getIdUser(auth));
             personaUsuarioPerfil.setIdPersona(getidPersona(auth));
-            
-            encodePassword(personaUsuarioPerfil);
-            if( personaUsuarioPerfil.getPassword() != null) {
+
+            encodePassword(personaUsuarioPerfil, auth);
+            if (personaUsuarioPerfil.getPassword() != null) {
                 this.usuarioMapper.updateUsuario(personaUsuarioPerfil);
-            } 
-            if(personaUsuarioPerfil.getNombre() != null || personaUsuarioPerfil.getApaterno() != null) {
+            }
+            if (personaUsuarioPerfil.getNombre() != null || personaUsuarioPerfil.getApaterno() != null) {
                 this.usuarioMapper.updatePersona(personaUsuarioPerfil);
             }
         } catch (DataAccessException e) {
             this.log.error(this.getClass().getName() + ":updateUsuarioPersona ex:" + e);
-            throw new InternalServerException("Error al actualizar usuario ex: "+e);           
+            throw new InternalServerException("Error al actualizar usuario ex: " + e);
         }  
     }
     
-    private void encodePassword(PersonaUsuarioPerfil pu ){
-        if(objetoValido(pu) && !StringUtils.isEmpty(pu.getPassword())) {
-            pu.setPassword(this.passwordEncoder.encode(pu.getPassword()));
+    private void encodePassword(PersonaUsuarioPerfil pu, Authentication auth ){
+        User user = (User) auth.getPrincipal();
+        if (objetoValido(pu) && !StringUtils.isEmpty(pu.getPassword())) {
+            if (this.passwordEncoder.matches(pu.getPasswordAnterior(), user.getPassword())) {
+                pu.setPassword(this.passwordEncoder.encode(pu.getPassword()));
+            }else{
+                throw new BadCredentialsException("la contraseña no coincide");
+            }
         }
     }
 

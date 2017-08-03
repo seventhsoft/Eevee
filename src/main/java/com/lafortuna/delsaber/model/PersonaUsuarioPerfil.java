@@ -23,6 +23,7 @@ public class PersonaUsuarioPerfil implements Serializable{
     private Integer idUsuario;
     private String usuario;
     private String password;
+    private String passwordAnterior;
     private boolean facebook;
     private Boolean activo;
     //personaperfil
@@ -195,6 +196,20 @@ public class PersonaUsuarioPerfil implements Serializable{
      */
     public void setActivo(Boolean activo) {
         this.activo = activo;
+    }
+
+    /**
+     * @return the passwordAnterior
+     */
+    public String getPasswordAnterior() {
+        return passwordAnterior;
+    }
+
+    /**
+     * @param passwordAnterior the passwordAnterior to set
+     */
+    public void setPasswordAnterior(String passwordAnterior) {
+        this.passwordAnterior = passwordAnterior;
     }
     
 }
