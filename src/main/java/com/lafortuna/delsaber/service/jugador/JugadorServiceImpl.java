@@ -40,7 +40,7 @@ public class JugadorServiceImpl extends GenericService implements JugadorService
         if(validaConcurso(concurso)) {
             result.put("concurso", concurso);
             
-            Integer idJugador = this.getidJugadorByUser(auth);
+            Integer idJugador = getIdJugadorByUser(auth);
             JugadorNivel jugadorNivel = this.jugadorNivelMapper.getJugadorNivelByIdJugador(idJugador);
             
             if(objetoValido(jugadorNivel)) {

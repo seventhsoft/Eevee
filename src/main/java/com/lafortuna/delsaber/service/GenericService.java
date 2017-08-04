@@ -22,7 +22,7 @@ public abstract class GenericService extends GenericRestService {
     private JugadorMapper jugadorMapper;
     
     @Transactional(readOnly = false)
-    public Integer getidJugadorByUser(Authentication auth) {
+    public Integer getIdJugadorByUser(Authentication auth) {
         User user = (User) auth.getPrincipal();
         return this.jugadorMapper.getJugadorByIdPersona(user.getUsuario().getPersona().getIdPersona());
     }
