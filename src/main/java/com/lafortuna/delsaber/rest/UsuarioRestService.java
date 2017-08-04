@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/usuarios")
-public class UsuarioRestService {
+public class UsuarioRestService extends GenericRestService{
     
     private final Logger log = LoggerFactory.getLogger(this.getClass());
     
@@ -42,7 +43,8 @@ public class UsuarioRestService {
     @RequestMapping(value = "/test",method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public void getTest() {
         this.log.info("#########################Log usuario Service!");
-        this.mailService.enviaCorreoRegistro("mario.mtz0310@gmail.com", 1);
+        String parametros = "#?tipo=1&iu=2";
+        this.mailService.enviaCorreoRegistro("andres.ahedo@gmail.com", parametros);
     }
     
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -58,6 +60,12 @@ public class UsuarioRestService {
         return this.usuarioService.getUsuarioById(idUsuario);
     }
     
+    @RequestMapping(value = "/perfil",method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Usuario geUserProfile(Authentication auth)
+    throws NotFoundException{
+        return this.usuarioService.getUsuarioById(getIdUser(auth));
+    }
+    
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public void insertUsuarioPersonaPerfil(@RequestBody PersonaUsuarioPerfil personaUsuarioPerfil){
@@ -70,8 +78,8 @@ public class UsuarioRestService {
     }
     
     @RequestMapping(method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-    public void updateUsuarioPersona(@RequestBody PersonaUsuarioPerfil personaUsuarioPerfil){
-        this.usuarioService.updateUsuarioPersona(personaUsuarioPerfil);
+    public void updateUsuarioPersona(@RequestBody PersonaUsuarioPerfil personaUsuarioPerfil, Authentication auth){
+        this.usuarioService.updateUsuarioPersona(personaUsuarioPerfil, auth);
     }
     
     @RequestMapping(value = "/jugadores/activar/{id}",method = RequestMethod.GET, produces = MediaType.TEXT_PLAIN_VALUE)
@@ -81,5 +89,15 @@ public class UsuarioRestService {
         p.setActivo(Boolean.FALSE);
         this.usuarioService.updateJugadorActivo(p);
         return "usuario activo!";
+    }
+    
+    @RequestMapping(value = "/recuperar/password",method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public void postRecuperarPassword(@RequestBody PersonaUsuarioPerfil personaUsuarioPerfil) {
+        this.usuarioService.postRecuperarPassword(personaUsuarioPerfil);
+    }
+    
+    @RequestMapping(value = "/recuperar/password/{token}",method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    public void updateRecuperarPassword(@RequestBody PersonaUsuarioPerfil personaUsuarioPerfil, @PathVariable("token") String token) {
+        this.usuarioService.updateRecuperarPassword(personaUsuarioPerfil, token);
     }
 }

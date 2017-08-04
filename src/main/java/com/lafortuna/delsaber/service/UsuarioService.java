@@ -9,6 +9,7 @@ import com.lafortuna.delsaber.model.Persona;
 import com.lafortuna.delsaber.model.PersonaUsuarioPerfil;
 import com.lafortuna.delsaber.model.Usuario;
 import java.util.List;
+import org.springframework.security.core.Authentication;
 
 /**
  *
@@ -20,6 +21,8 @@ public interface UsuarioService {
     Usuario getUsuarioById(Integer idUsuario);
     void insertUsuarioPersonaPerfil(PersonaUsuarioPerfil personaUsuarioPerfil);
     void deleteUsuarioPersonaPerfil(PersonaUsuarioPerfil personaUsuarioPerfil);
-    void updateUsuarioPersona(PersonaUsuarioPerfil personaUsuarioPerfil);
+    void updateUsuarioPersona(PersonaUsuarioPerfil personaUsuarioPerfil, Authentication auth);
     void updateJugadorActivo(PersonaUsuarioPerfil personaUsuarioPerfil);
+    void postRecuperarPassword(PersonaUsuarioPerfil personaUsuarioPerfil);
+    void updateRecuperarPassword(PersonaUsuarioPerfil p, String token);
 }

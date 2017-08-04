@@ -22,10 +22,12 @@ import org.springframework.dao.DataAccessException;
 public interface JugadorNivelMapper {
     
     @Results(id = "jugadorNivel", value = {
+        @Result(column = "id_jugador_nivel", property = "idJugadorNivel"),
         @Result(column = "nivel", property = "dNivel"),
         @Result(column = "serie_actual", property = "serieActual")
     })
     @Select("select " +
+            "jn.id_jugador_nivel " +
             "n.nivel, " +
             "jn.serie_actual from jugador_nivel jn  " +
             "inner join nivel n on n.id_nivel = jn.id_nivel and n.activo = false " +

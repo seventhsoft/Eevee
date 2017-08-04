@@ -20,6 +20,9 @@ public class Constant {
     //Catálogo de perfiles
     public static final String TEST_MAIL_TEMPLATE = "testTemplate";
     public static final String RESGISTRO_MAIL_TEMPLATE = "registro";
-    //Series
+    //Series y concursos
+    public static final int NIVEL_UNO = 1 ;
     public static final int SERIE_UNO = 1 ;
+    public static final String RECUPERAR_MAIL_TEMPLATE = "recuperar";
+    public static final String RUTA_HOME_KUNI = "http://juegakuni.com.mx/index.html";
 }

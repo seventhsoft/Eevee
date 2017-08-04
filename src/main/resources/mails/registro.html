@@ -350,11 +350,10 @@
                                 <p>Gracias por registrarte para jugar Kuni, donde tu conocimiento se recompensa.</p>
                                 <p>Abajo encontrarás un link, haz click en el para completar tu registro y confirmar que no eres un robot.</p>
                                 <p style="text-align:center;">
-                                    <a class="btn" href="#" th:href="'http://api.juegakuni.com.mx/lfs/usuarios/jugadores/activar/' + ${id}">Completar</a>
-<!--                                    <a class="btn" href="#" th:href="'http://localhost:8080/lfs/usuarios/jugadores/activar/' + ${id}">Completar</a>-->
+                                    <a class="btn" href="#" th:href="${ruta} +${parametros}">Completar</a>
                                 </p>
                                 <br/>
-                                <p><small>Si por alguna razón no funciona el botón, copia y pega en tu navegador el siguiente enlace: http://www.juegakuni.mx</small></p>
+                                <p><small>Si por alguna razón no funciona el botón, copia y pega en tu navegador el siguiente enlace:  <span th:text="${ruta}+'' +${parametros}"/></small></p>
                                 <p><small>Si haz recibido este correo por error, por favor igóralo.</small></p>
                             </td>
                         </tr>

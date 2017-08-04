@@ -23,6 +23,7 @@ public class Nivel implements Serializable {
     private Integer series;
     private Integer tiempoPregunta;
     private Boolean activo;
+    private Integer nivel;
     private Date fechaRegistro;
     private List<JugadorNivel> jugadorNivelList;
     private Concurso concurso;
@@ -96,5 +97,19 @@ public class Nivel implements Serializable {
 
     public void setConcurso(Concurso concurso) {
         this.concurso = concurso;
+    }
+
+    /**
+     * @return the nivel
+     */
+    public Integer getNivel() {
+        return nivel;
+    }
+
+    /**
+     * @param nivel the nivel to set
+     */
+    public void setNivel(Integer nivel) {
+        this.nivel = nivel;
     }
 }

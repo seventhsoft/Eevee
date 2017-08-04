@@ -24,8 +24,9 @@ public interface NivelMapper {
         @Result(column = "id_concurso", property = "idConcurso"),
         @Result(column = "descripcion", property = "descripcion"),
         @Result(column = "series", property = "series"),
-        @Result(column = "tiempo_pregunta", property = "tiempoPregunta")
+        @Result(column = "tiempo_pregunta", property = "tiempoPregunta"),
+        @Result(column = "nivel", property = "nivel")
     })
-    @Select("select id_nivel, id_concurso, descripcion, series, tiempo_pregunta from nivel where id_concurso = #{idConcurso}")
+    @Select("select id_nivel, id_concurso, descripcion, series, tiempo_pregunta, nivel from nivel where id_concurso = #{idConcurso}")
     public List<Nivel> getNivelByIdConcurso(Integer idConcurso);
 }

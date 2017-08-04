@@ -12,6 +12,7 @@ import com.lafortuna.delsaber.exception.NoUserAuthenticatedException;
 import com.lafortuna.delsaber.exception.NotFoundException;
 import com.lafortuna.delsaber.exception.ConflictException;
 import com.lafortuna.delsaber.exception.ErrorResponse;
+import com.lafortuna.delsaber.exception.NonAuthoritativeInformation;
 import com.lafortuna.delsaber.model.User;
 import java.util.List;
 
@@ -108,4 +109,10 @@ public abstract class GenericRestService<E> {
     public ErrorResponse internalServerError( InternalServerException e) {
         return new ErrorResponse(HttpStatus.PRECONDITION_FAILED.value(), "Error al realizar el proceso! " +  e.getMessage());
     }
-}
+    
+    @ExceptionHandler(NonAuthoritativeInformation.class)
+    @ResponseStatus(HttpStatus.NON_AUTHORITATIVE_INFORMATION)
+    public ErrorResponse nonAuthoritativeInformation(NonAuthoritativeInformation e){
+        return new ErrorResponse(HttpStatus.NON_AUTHORITATIVE_INFORMATION.value(),e.getMessage());
+    }
+} 
