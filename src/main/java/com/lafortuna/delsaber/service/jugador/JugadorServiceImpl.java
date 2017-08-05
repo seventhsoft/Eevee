@@ -59,12 +59,13 @@ public class JugadorServiceImpl extends GenericService implements JugadorService
                     }
                 }
   
-                jugadorNivel.setIdJugadorNivel(idJugador);
+                jugadorNivel.setIdJugador(idJugador);
                 jugadorNivel.setSerieActual(Constant.SERIE_UNO);
                 this.jugadorNivelMapper.saveJugadorNivel(jugadorNivel);
+                jugadorNivel = this.jugadorNivelMapper.getJugadorNivelByIdJugador(idJugador);
             }
             result.put("jugadorNivel", jugadorNivel);
-            
+            result.put("niveles", this.jugadorNivelMapper.getJugadorNivel(concurso.getIdConcurso(), idJugador));
         }
         return result;
     }
