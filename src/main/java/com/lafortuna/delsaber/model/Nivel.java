@@ -19,6 +19,7 @@ public class Nivel implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private Integer idNivel;
+    private Integer idConcurso;
     private Integer descripcion;
     private Integer series;
     private Integer tiempoPregunta;
@@ -111,5 +112,13 @@ public class Nivel implements Serializable {
      */
     public void setNivel(Integer nivel) {
         this.nivel = nivel;
+    }
+
+    public void setIdConcurso(Integer idConcurso) {
+        this.idConcurso = idConcurso;
+    }
+
+    public Integer getIdConcurso() {
+        return idConcurso;
     }
 }
