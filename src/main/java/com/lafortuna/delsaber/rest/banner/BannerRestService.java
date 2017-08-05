@@ -26,7 +26,7 @@ public class BannerRestService extends GenericRestService{
     @Autowired
     private BannerService bannerService;
     
-    @RequestMapping(value = "/updateAgregaInteraccion/{idBanner}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/interaccion/{idBanner}", method = RequestMethod.PUT)
     public Map<String, String> updateAgregaInteraccion(@PathVariable("idBanner")Integer idBanner) {       
         Map<String,String> map = new HashMap<>();
         map.put("msg", "ok");

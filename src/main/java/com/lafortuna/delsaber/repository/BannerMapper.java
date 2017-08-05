@@ -23,7 +23,7 @@ import org.springframework.dao.DataAccessException;
 @Mapper
 public interface BannerMapper {
 
-    @Results(id = "banner", value = {
+    @Results(id = "bannerPequenos", value = {
         @Result(property = "idBanner", column = "id_banner", id = true),
         @Result(property = "idCampana", column = "id_campana"),
         @Result(property = "descripcion", column = "descripcion"),
@@ -50,7 +50,7 @@ public interface BannerMapper {
     )
     List<Banner> getBannerPequenos();
 
-    @Results(id = "banner", value = {
+    @Results(id = "bannerGrande", value = {
         @Result(property = "idBanner", column = "id_banner", id = true),
         @Result(property = "idCampana", column = "id_campana"),
         @Result(property = "descripcion", column = "descripcion"),
