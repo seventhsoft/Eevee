@@ -54,7 +54,7 @@ public class JugadorServiceImpl extends GenericService implements JugadorService
                 jugadorNivel = new JugadorNivel();
                 
                 for(Nivel n : niveles){
-                    if(n.getIdNivel().equals(Constant.NIVEL_UNO)){
+                    if(n.getDescripcion().equals(Constant.NIVEL_UNO)){
                         jugadorNivel.setIdNivel(n.getIdNivel());
                     }
                 }

@@ -23,7 +23,17 @@ public class JugadorNivel implements Serializable {
     private Nivel nivel;
     private List<Serie> serieList;
     private Integer idNivel;
+    private Integer dNivel;
 
+    public void setdNivel(Integer dNivel) {
+        this.dNivel = dNivel;
+    }
+
+    public Integer getdNivel() {
+        return dNivel;
+    }
+
+    
     public JugadorNivel() {
     }
 
