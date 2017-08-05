@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.lafortuna.delsaber.concurso.serie;
+package com.lafortuna.delsaber.service.concurso.serie;
 
 import java.util.Map;
 
