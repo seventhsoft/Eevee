@@ -5,7 +5,7 @@
  */
 package com.lafortuna.delsaber.rest.concurso.serie;
 
-import com.lafortuna.delsaber.concurso.serie.PreguntaRespuestaService;
+import com.lafortuna.delsaber.service.concurso.serie.PreguntaRespuestaService;
 import com.lafortuna.delsaber.service.GenericService;
 import java.util.HashMap;
 import java.util.Map;
