@@ -25,10 +25,8 @@ public class BannerRestService extends GenericRestService{
     @Autowired
     private BannerService bannerService;
     
-    @RequestMapping(value = "/interaccion/{idBanner}", method = RequestMethod.PUT, produces = MediaType.TEXT_PLAIN_VALUE)
+    @RequestMapping(value = "/interaccion/{idBanner}", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
     public String updateAgregaInteraccion(@PathVariable("idBanner")Integer idBanner) { 
-        String content = this.bannerService.updateAgregaInteraccion(idBanner);
-        
-        return content;
+        return this.bannerService.updateAgregaInteraccion(idBanner);
     }    
 }

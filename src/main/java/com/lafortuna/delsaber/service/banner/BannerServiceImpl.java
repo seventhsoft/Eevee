@@ -36,16 +36,17 @@ public class BannerServiceImpl extends GenericService implements BannerService{
     
     @Override
     public String updateAgregaInteraccion(Integer idBanner) {
+        Map<String,String> parametros = new HashMap<>();
+        String ruta = "http://127.0.0.1";
         if(objetoValido(idBanner)){
             Banner banner = this.bannerMapper.getBannerById(idBanner);
             if(objetoValido(banner)){
-                String ruta = banner.getRuta();
                 this.bannerMapper.updateAgregaInteraccionBanner(idBanner);
-                return ruta;
+                ruta = banner.getRuta();
             }
-            throw new NoContentException(Constant.NO_CONTENT_MESSAGE);
         }
-        throw new NoContentException(Constant.NO_CONTENT_MESSAGE);
+        parametros.put("ruta", ruta);
+        return this.mailContentBuilder.build(Constant.BANNER_HTML_TEMPLATE,parametros);
     }
     
 }
