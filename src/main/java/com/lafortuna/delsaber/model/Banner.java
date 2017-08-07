@@ -23,6 +23,7 @@ public class Banner implements Serializable {
     private String ruta;
     private boolean activo;
     private boolean tipo;
+    private Integer idCampana;
     private Date fechaRegistro;
     private Campana campana;
 
@@ -33,13 +34,14 @@ public class Banner implements Serializable {
         this.idBanner = idBanner;
     }
 
-    public Banner(Integer idBanner, String descripcion, String ruta, boolean activo, Date fechaRegistro, boolean tipo) {
+    public Banner(Integer idBanner, String descripcion, String ruta, boolean activo, Date fechaRegistro, boolean tipo, Integer idCampana) {
         this.idBanner = idBanner;
         this.descripcion = descripcion;
         this.ruta = ruta;
         this.activo = activo;
         this.fechaRegistro = fechaRegistro;
         this.tipo = tipo;
+        this.idCampana = idCampana;
     }
     
     public Integer getIdBanner() {
@@ -112,5 +114,13 @@ public class Banner implements Serializable {
 
     public boolean isTipo() {
         return tipo;
+    }
+
+    public void setIdCampana(Integer idCampana) {
+        this.idCampana = idCampana;
+    }
+
+    public Integer getIdCampana() {
+        return idCampana;
     }
 }

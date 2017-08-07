@@ -7,9 +7,8 @@ package com.lafortuna.delsaber.rest.banner;
 
 import com.lafortuna.delsaber.rest.GenericRestService;
 import com.lafortuna.delsaber.service.banner.BannerService;
-import java.util.HashMap;
-import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,12 +25,10 @@ public class BannerRestService extends GenericRestService{
     @Autowired
     private BannerService bannerService;
     
-    @RequestMapping(value = "/interaccion/{idBanner}", method = RequestMethod.PUT)
-    public Map<String, String> updateAgregaInteraccion(@PathVariable("idBanner")Integer idBanner) {       
-        Map<String,String> map = new HashMap<>();
-        map.put("msg", "ok");
-        this.bannerService.updateAgregaInteraccion(idBanner);
-        return map;
-    }
-    
+    @RequestMapping(value = "/interaccion/{idBanner}", method = RequestMethod.PUT, produces = MediaType.TEXT_PLAIN_VALUE)
+    public String updateAgregaInteraccion(@PathVariable("idBanner")Integer idBanner) { 
+        String content = this.bannerService.updateAgregaInteraccion(idBanner);
+        
+        return content;
+    }    
 }

@@ -95,7 +95,7 @@ public interface BannerMapper {
             + "	ruta,  "
             + "	activo,  "
             + "	fecha_registro,  "
-            + "	b.ruta  "
+            + "	ruta  "
             + "from banner  "
             + "where id_banner = #{idBanner}"
     )
