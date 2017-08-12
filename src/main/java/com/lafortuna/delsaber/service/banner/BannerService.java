@@ -10,5 +10,5 @@ package com.lafortuna.delsaber.service.banner;
  * @author Andres
  */
 public interface BannerService {
-    void updateAgregaInteraccion(Integer idBanner);
+    String updateAgregaInteraccion(Integer idBanner);
 }

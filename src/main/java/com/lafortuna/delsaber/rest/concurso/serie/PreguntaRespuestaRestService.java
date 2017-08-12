@@ -26,7 +26,7 @@ public class PreguntaRespuestaRestService extends GenericService {
     @Autowired
     private PreguntaRespuestaService preguntaRespuestaService;
     
-    @RequestMapping(value = "/preguntarespuesta", method = RequestMethod.POST)
+    @RequestMapping(value = "/preguntarespuesta", method = RequestMethod.POST,  consumes="application/json")
     public Map<String, String>insertSerie(@RequestBody Map<String, Integer> map){
         
         Map<String,String> result = new HashMap<>();
