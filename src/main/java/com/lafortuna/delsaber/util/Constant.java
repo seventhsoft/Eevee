@@ -25,4 +25,9 @@ public class Constant {
     public static final int SERIE_UNO = 1 ;
     public static final String RECUPERAR_MAIL_TEMPLATE = "recuperar";
     public static final String RUTA_HOME_KUNI = "http://juegakuni.com.mx/index.html";
+    public static final int TOTAL_PREGUNTAS_POR_SERIE = 6 ;
+    //dificultad
+    public static final int DIFICULTAD_FACIL = 1 ;
+    public static final int DIFICULTAD_MEDIA = 2 ;
+    public static final int DIFICULTAD_DIFICIL = 3 ;
 }

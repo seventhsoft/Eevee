@@ -27,7 +27,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.mail.MailException;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -155,7 +157,7 @@ public class UsuarioServiceImpl extends GenericService implements UserDetailsSer
 
             encodePassword(personaUsuarioPerfil, auth);
             if (personaUsuarioPerfil.getPassword() != null) {
-                this.usuarioMapper.updateUsuario(personaUsuarioPerfil);
+                this.usuarioMapper.updateUsuario(personaUsuarioPerfil);               
             }
             if (personaUsuarioPerfil.getNombre() != null || personaUsuarioPerfil.getApaterno() != null) {
                 this.usuarioMapper.updatePersona(personaUsuarioPerfil);
@@ -167,7 +169,7 @@ public class UsuarioServiceImpl extends GenericService implements UserDetailsSer
     }
     
     private void encodePassword(PersonaUsuarioPerfil pu, Authentication auth ){
-        User user = (User) auth.getPrincipal();
+        Usuario user = this.usuarioMapper.getUsuarioByUserName(auth.getName());
         if (objetoValido(pu) && !StringUtils.isEmpty(pu.getPassword())) {
             if (this.passwordEncoder.matches(pu.getPasswordAnterior(), user.getPassword())) {
                 pu.setPassword(this.passwordEncoder.encode(pu.getPassword()));

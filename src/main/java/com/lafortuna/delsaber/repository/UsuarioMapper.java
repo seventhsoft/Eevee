@@ -10,6 +10,7 @@ import com.lafortuna.delsaber.model.Usuario;
 import com.lafortuna.delsaber.repository.provider.UserProvider;
 import java.util.List;
 import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Flush;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
@@ -125,7 +126,7 @@ public interface UsuarioMapper {
     @UpdateProvider(type = UserProvider.class, method = "updatePersona")
         void updatePersona(PersonaUsuarioPerfil personaUsuarioPerfil) throws DataAccessException;
     
-    @UpdateProvider(type = UserProvider.class, method = "updateUsuario")
+    @UpdateProvider(type = UserProvider.class, method = "updateUsuario")           
         void updateUsuario(PersonaUsuarioPerfil personaUsuarioPerfil) throws DataAccessException; 
     
     @Update("update usuario set activo = #{activo} where id_usuario = #{idUsuario} ")

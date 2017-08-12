@@ -43,8 +43,8 @@ public class UsuarioRestService extends GenericRestService{
     @RequestMapping(value = "/test",method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public void getTest() {
         this.log.info("#########################Log usuario Service!");
-        String parametros = "#?tipo=1&iu=2";
-        this.mailService.enviaCorreoRegistro("andres.ahedo@gmail.com", parametros);
+     //   String parametros = "#?tipo=1&iu=2";
+     //   this.mailService.enviaCorreoRegistro("andres.ahedo@gmail.com", parametros);
     }
     
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
