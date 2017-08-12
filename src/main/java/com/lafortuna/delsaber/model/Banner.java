@@ -5,6 +5,7 @@
  */
 package com.lafortuna.delsaber.model;
 
+import com.lafortuna.delsaber.util.Constant;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -26,6 +27,7 @@ public class Banner implements Serializable {
     private Integer idCampana;
     private Date fechaRegistro;
     private Campana campana;
+    private String url;
 
     public Banner() {
     }
@@ -34,7 +36,7 @@ public class Banner implements Serializable {
         this.idBanner = idBanner;
     }
 
-    public Banner(Integer idBanner, String descripcion, String ruta, boolean activo, Date fechaRegistro, boolean tipo, Integer idCampana) {
+    public Banner(Integer idBanner, String descripcion, String ruta, boolean activo, Date fechaRegistro, boolean tipo, Integer idCampana, String url) {
         this.idBanner = idBanner;
         this.descripcion = descripcion;
         this.ruta = ruta;
@@ -42,6 +44,7 @@ public class Banner implements Serializable {
         this.fechaRegistro = fechaRegistro;
         this.tipo = tipo;
         this.idCampana = idCampana;
+        this.url = url;
     }
     
     public Integer getIdBanner() {
@@ -49,6 +52,7 @@ public class Banner implements Serializable {
     }
 
     public void setIdBanner(Integer idBanner) {
+        this.setUrl(Constant.BANNER_INTERACION + "/" + idBanner.toString());
         this.idBanner = idBanner;
     }
 
@@ -123,4 +127,14 @@ public class Banner implements Serializable {
     public Integer getIdCampana() {
         return idCampana;
     }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+    
+        
 }
