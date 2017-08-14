@@ -25,6 +25,7 @@ public class Recompensa implements Serializable {
     private Date fechaRegistro;
     private Patrocinador patrocinador;
     private TipoRecompensa tipoRecompensa;
+    private boolean redimido;
     private List<RecompensaConcurso> recompensaConcursoList;
 
     public Recompensa() {
@@ -34,13 +35,14 @@ public class Recompensa implements Serializable {
         this.idRecompensa = idRecompensa;
     }
 
-    public Recompensa(Integer idRecompensa, String descripcion, int cantidad, Date vigencia, boolean activo, Date fechaRegistro) {
+    public Recompensa(Integer idRecompensa, String descripcion, int cantidad, Date vigencia, boolean activo, Date fechaRegistro, boolean redimido) {
         this.idRecompensa = idRecompensa;
         this.descripcion = descripcion;
         this.cantidad = cantidad;
         this.vigencia = vigencia;
         this.activo = activo;
         this.fechaRegistro = fechaRegistro;
+        this.redimido = redimido;
     }
 
     public Integer getIdRecompensa() {
@@ -113,5 +115,13 @@ public class Recompensa implements Serializable {
 
     public void setRecompensaConcursoList(List<RecompensaConcurso> recompensaConcursoList) {
         this.recompensaConcursoList = recompensaConcursoList;
+    }
+
+    public boolean isRedimido() {
+        return redimido;
+    }
+
+    public void setRedimido(boolean redimido) {
+        this.redimido = redimido;
     }
 }
