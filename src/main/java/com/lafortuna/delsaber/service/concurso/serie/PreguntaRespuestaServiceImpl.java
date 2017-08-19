@@ -6,6 +6,7 @@
 package com.lafortuna.delsaber.service.concurso.serie;
 
 import com.lafortuna.delsaber.exception.InternalServerException;
+import com.lafortuna.delsaber.model.Recompensa;
 import com.lafortuna.delsaber.repository.PreguntaRespuestaMapper;
 import com.lafortuna.delsaber.service.GenericService;
 import java.util.Map;
@@ -28,16 +29,19 @@ public class PreguntaRespuestaServiceImpl extends GenericService implements Preg
     private PreguntaRespuestaMapper preguntaRespuestaMapper;
 
     @Override
-    public void insertSerie(Map<String, Integer> map) {
+    public Recompensa insertSerie(Map<String, Integer> map) {
         Integer jugadorNivel = map.get("idJugadorNivel");
         Integer respuesta = map.get("idRespuesta");
         Integer serie = map.get("serie");
+        Recompensa recompensa = new Recompensa();
         try{
             this.preguntaRespuestaMapper.insertSerie(jugadorNivel, respuesta, serie);
+            recompensa = this.preguntaRespuestaMapper.getRecompensaConcurso(jugadorNivel);
         }catch(DataAccessException e){
             this.log.error(this.getClass().getName() + ":insertSerie ex:" + e);
             throw new InternalServerException("Error al guardar serie: "+e);
         }
+        return recompensa;
     }
     
 }

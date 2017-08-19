@@ -5,11 +5,14 @@
  */
 package com.lafortuna.delsaber.rest.concurso.serie;
 
+import com.lafortuna.delsaber.model.Recompensa;
 import com.lafortuna.delsaber.service.concurso.serie.PreguntaRespuestaService;
 import com.lafortuna.delsaber.service.GenericService;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,12 +30,18 @@ public class PreguntaRespuestaRestService extends GenericService {
     private PreguntaRespuestaService preguntaRespuestaService;
     
     @RequestMapping(value = "/preguntarespuesta", method = RequestMethod.POST,  consumes="application/json")
-    public Map<String, String>insertSerie(@RequestBody Map<String, Integer> map){
+    public ResponseEntity<?> insertSerie(@RequestBody Map<String, Integer> map){
         
         Map<String,String> result = new HashMap<>();
-        result.put("msg", "ok");
-        this.preguntaRespuestaService.insertSerie(map);
-        return result;
+        result.put("msg", "no cuenta con recompensa");
+        
+        Recompensa recompensa = new Recompensa();
+        recompensa = this.preguntaRespuestaService.insertSerie(map);
+        
+        if(recompensa != null){
+             return new ResponseEntity<Recompensa>(recompensa, HttpStatus.OK);
+        }
+        return new ResponseEntity<Map<String, String>>(result, HttpStatus.OK);
     }
     
 }
