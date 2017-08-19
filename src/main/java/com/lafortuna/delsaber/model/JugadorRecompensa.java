@@ -17,6 +17,8 @@ public class JugadorRecompensa implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private Integer idJugadorRecompensa;
+    private Integer idRecompensaConcurso;
+    private Integer idJugador;
     private String codigo;
     private String observacion;
     private Boolean redimido;
@@ -99,5 +101,21 @@ public class JugadorRecompensa implements Serializable {
 
     public void setRecompensaConcurso(RecompensaConcurso recompensaConcurso) {
         this.recompensaConcurso = recompensaConcurso;
+    }
+
+    public void setIdRecompensaConcurso(Integer idRecompensaConcurso) {
+        this.idRecompensaConcurso = idRecompensaConcurso;
+    }
+
+    public Integer getIdRecompensaConcurso() {
+        return idRecompensaConcurso;
+    }
+
+    public void setIdJugador(Integer idJugador) {
+        this.idJugador = idJugador;
+    }
+
+    public Integer getIdJugador() {
+        return idJugador;
     }
 }
