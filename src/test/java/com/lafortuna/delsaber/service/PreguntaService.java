@@ -33,8 +33,8 @@ public class PreguntaService {
     
     @Test
     public void testPrint() {
-        Map<Integer, Map<String, Integer>> rList = this.preguntaMapper.getProporcionPreguntas(1);
-        assertThat(rList).isNotNull();
+       // Map<Integer, Map<String, Integer>> rList = this.preguntaMapper.getProporcionPreguntas(1);
+
     }
     
 }

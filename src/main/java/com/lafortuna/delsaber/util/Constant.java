@@ -27,7 +27,7 @@ public class Constant {
     public static final String BANNER_HTML_TEMPLATE = "banner";
     public static final String RUTA_HOME_KUNI = "http://juegakuni.com.mx/index.html";
     public static final String BANNER_INTERACION = "http://api.juegakuni.com.mx/lfs/banner/interaccion";
-    public static final int TOTAL_PREGUNTAS_POR_SERIE = 6 ;
+    public static final long TOTAL_PREGUNTAS_POR_SERIE = 6 ;
     //dificultad
     public static final int DIFICULTAD_FACIL = 1 ;
     public static final int DIFICULTAD_MEDIA = 2 ;

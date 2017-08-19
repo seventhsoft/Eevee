@@ -35,4 +35,6 @@ public class TestService {
         Usuario usuario = usuarioService.getUsuarioByUserName("admin");
         assertThat(usuario).isNotNull();
     }
+    
+    
 }
