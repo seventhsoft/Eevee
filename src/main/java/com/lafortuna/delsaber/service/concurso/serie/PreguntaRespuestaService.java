@@ -7,6 +7,7 @@ package com.lafortuna.delsaber.service.concurso.serie;
 
 import com.lafortuna.delsaber.model.Recompensa;
 import java.util.Map;
+import org.springframework.security.core.Authentication;
 
 /**
  *
@@ -14,6 +15,6 @@ import java.util.Map;
  */
 public interface PreguntaRespuestaService {
     
-    Recompensa insertSerie(Map<String, Integer> map);
+    Recompensa insertSerie(Map<String, Integer> map, Authentication auth);
     
 }

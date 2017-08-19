@@ -29,4 +29,24 @@ public interface NivelMapper {
     })
     @Select("select id_nivel, id_concurso, descripcion, series, tiempo_pregunta, nivel from nivel where id_concurso = #{idConcurso}")
     public List<Nivel> getNivelByIdConcurso(Integer idConcurso);
+    
+    @Results(id = "nivel_jugador", value = {
+        @Result(column = "id_nivel", property = "idNivel", id = true),
+        @Result(column = "id_concurso", property = "idConcurso"),
+        @Result(column = "descripcion", property = "descripcion"),
+        @Result(column = "series", property = "series"),
+        @Result(column = "tiempo_pregunta", property = "tiempoPregunta"),
+        @Result(column = "nivel", property = "nivel")
+    })
+ 
+    @Select("select n.id_nivel, n.id_concurso, n.descripcion, n.series, n.tiempo_pregunta, n.nivel " +
+            "from nivel n " +
+            "inner join jugador_nivel j on n.id_nivel = j.id_nivel " +
+            "where j.id_jugador_nivel = #{idJugadorNivel} limit 1")
+    public Nivel getNivelByJugadorNivel(Integer idJugadorNivel);
+    
+    @Select(
+    "select count(*) from nivel where id_concurso = #{idConcurso}"
+    )
+    public Integer getTotalNivelesByIdConcurso(Integer idConcurso);
 }

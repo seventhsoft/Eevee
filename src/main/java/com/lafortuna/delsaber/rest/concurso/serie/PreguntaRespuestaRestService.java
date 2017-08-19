@@ -13,6 +13,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,15 +31,14 @@ public class PreguntaRespuestaRestService extends GenericService {
     private PreguntaRespuestaService preguntaRespuestaService;
     
     @RequestMapping(value = "/preguntarespuesta", method = RequestMethod.POST,  consumes="application/json")
-    public ResponseEntity<?> insertSerie(@RequestBody Map<String, Integer> map){
+    public ResponseEntity<?> insertSerie(@RequestBody Map<String, Integer> map, Authentication auth){
         
         Map<String,String> result = new HashMap<>();
         result.put("msg", "no cuenta con recompensa");
         
-        Recompensa recompensa = new Recompensa();
-        recompensa = this.preguntaRespuestaService.insertSerie(map);
+        Recompensa recompensa = this.preguntaRespuestaService.insertSerie(map,auth);
         
-        if(recompensa != null){
+        if(objetoValido(recompensa)){
              return new ResponseEntity<Recompensa>(recompensa, HttpStatus.OK);
         }
         return new ResponseEntity<Map<String, String>>(result, HttpStatus.OK);

@@ -33,8 +33,8 @@ public class RecompensaRestService extends GenericRestService{
         return this.recompensaService.recompensaByConcurso(idConcurso);
     }
     
-    @RequestMapping(value = "/jugador/{idConcurso}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Recompensa> recompensaByJugador(@PathVariable("idConcurso")Integer idConcurso, Authentication auth) throws NotFoundException{
-        return this.recompensaService.recompensaByJugador(auth,idConcurso);
+    @RequestMapping(value = "/jugador", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Recompensa> recompensaByJugador(Authentication auth) throws NotFoundException{
+        return this.recompensaService.recompensaByJugador(auth);
     }
 }

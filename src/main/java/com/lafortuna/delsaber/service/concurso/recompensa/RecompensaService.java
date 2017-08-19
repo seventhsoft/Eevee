@@ -16,5 +16,5 @@ import org.springframework.security.core.Authentication;
 public interface RecompensaService {
     
     List<Recompensa> recompensaByConcurso(Integer idConcurso);
-    List<Recompensa> recompensaByJugador(Authentication auth, Integer idConcurso);
+    List<Recompensa> recompensaByJugador(Authentication auth);
 }

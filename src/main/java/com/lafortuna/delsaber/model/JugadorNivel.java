@@ -25,7 +25,16 @@ public class JugadorNivel implements Serializable {
     private Integer idNivel;
     private Integer idJugador;
     private Integer dNivel;
+    private Integer idConcurso;
 
+    public void setIdConcurso(Integer idConcurso) {
+        this.idConcurso = idConcurso;
+    }
+
+    public Integer getIdConcurso() {
+        return idConcurso;
+    }
+    
     public void setdNivel(Integer dNivel) {
         this.dNivel = dNivel;
     }

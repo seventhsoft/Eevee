@@ -39,10 +39,10 @@ public class RecompensaServiceImpl extends GenericService implements RecompensaS
     }
 
     @Override
-    public List<Recompensa> recompensaByJugador(Authentication auth, Integer idConcurso) {
+    public List<Recompensa> recompensaByJugador(Authentication auth) {
         Integer idJugador = getIdJugadorByUser(auth);
         log.debug("idJugador:" + idJugador);
-        List<Recompensa> lista =  this.recompensaMapper.getRecompensasByJugador(idJugador, idConcurso);
+        List<Recompensa> lista =  this.recompensaMapper.getRecompensasByJugador(idJugador);
         if (objetoValido(lista)) {
             return lista;
         }

@@ -45,6 +45,7 @@ public interface RecompensaMapper {
             "inner join recompensa_concurso rc on r.id_recompensa = rc.id_recompensa " +
             "inner join nivel n on rc.id_nivel = n.id_nivel " +
             "inner join jugador_recompensa jr on rc.id_recompensa_concurso = jr.id_recompensa_concurso " +
-            "where jr.id_jugador = #{idJugador} AND n.id_concurso = #{idConcurso}")
-    List<Recompensa > getRecompensasByJugador(@Param("idJugador") Integer idJugador, @Param("idConcurso") Integer idConcurso);
+            "where jr.id_jugador = #{idJugador} " +
+            "and r.vigencia >= now()")
+    List<Recompensa > getRecompensasByJugador(@Param("idJugador") Integer idJugador);
 }

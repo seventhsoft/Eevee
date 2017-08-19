@@ -15,6 +15,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.dao.DataAccessException;
 
 /**
@@ -62,4 +63,13 @@ public interface JugadorNivelMapper {
             "left join jugador_nivel jn on jn.id_nivel = n.id_nivel and jn.id_jugador = #{idJugador} " +
             "order by n.nivel")
     List<NivelJugadorDTO> getJugadorNivel(@Param("idConcurso") Integer idConcurso, @Param("idJugador") Integer idJugador);
+    
+    @Insert("insert into jugador_nivel(id_jugador, id_nivel, serie_actual) values(#{idJugador}, "
+            +"(select id_nivel from nivel where id_concurso = #{idConcurso} AND nivel = #{dNivel} )," 
+            +"#{serieActual})")
+    @Options(useGeneratedKeys = true, keyProperty = "idJugadorNivel", keyColumn = "id_jugador_nivel")
+    void subirNivel(JugadorNivel jugadorNivel) throws DataAccessException;
+    
+    @Update("update jugador_nivel set serie_actual = #{serieActual} where id_jugador_nivel = #{idJugadorNivel}")
+    void subirSerie(@Param("idJugadorNivel") Integer idJugadorNivel, @Param("serieActual") Integer serieActual) throws DataAccessException;;
 }
