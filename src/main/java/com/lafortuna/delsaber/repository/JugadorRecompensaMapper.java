@@ -23,7 +23,7 @@ import org.springframework.dao.DataAccessException;
 public interface JugadorRecompensaMapper {
     
     @Results(id = "getRecompensaConcurso", value = {
-        @Result(column = "idRecompensaConcurso", property = "id_recompensa_concurso", id=true),
+        @Result(column = "id_recompensa_concurso", property = "idRecompensaConcurso", id=true),
         @Result(column = "descripcion", property = "descripcion"),
         @Result(column = "codigo", property = "codigo")
     })
@@ -38,7 +38,7 @@ public interface JugadorRecompensaMapper {
     RecompensaConcursoNivelDTO getRecompensaConcurso(@Param("idNivel") Integer idNivel);
     
     @Insert("insert into jugador_recompensa (id_recompensa_concurso, id_jugador, codigo, observacion, redimido ) values "
-            + "(#{idRecompensaConcurso}, #{idJugador}), #{codigo}, #{observacion}, false) ")
+            + "(#{idRecompensaConcurso}, #{idJugador}, #{codigo}, #{observacion}, false) ")
 	void insertJugadorRecompensa(JugadorRecompensa jugadorRecompensa) throws DataAccessException;
     
 }

@@ -79,9 +79,9 @@ public class PreguntaRespuestaServiceImpl extends GenericService implements Preg
         Integer nivelActual = nivel.getNivel()+1;
         JugadorNivel jn = new JugadorNivel();
         Integer idJugador = getIdJugadorByUser(auth);
-        String recompensaGanda = ""; 
+        String recompensaGanada = ""; 
         Boolean ban = perfecta == Constant.SERIE_PERFECTA;
-        if(nivel.getSeries() <= serieActual && ban){
+        if(serieActual > nivel.getSeries() && ban){
             Integer totalNiveles = this.nivelMapper.getTotalNivelesByIdConcurso(idConcurso);            
             if(nivelActual<= totalNiveles){
                 //Avanza nivel
@@ -90,7 +90,7 @@ public class PreguntaRespuestaServiceImpl extends GenericService implements Preg
                 jn.setSerieActual(Constant.SERIE_UNO);
                 jn.setIdJugador(idJugador);
                 nivel = this.nivelMapper.getNivelByJugadorNivel(jugadorNivel);
-                recompensaGanda = this.ganaPremio(jn,nivel);   
+                recompensaGanada = this.ganaPremio(jn,nivel);   
                 this.jugadorNivelMapper.subirNivel(jn);
             }
         }else{
@@ -98,11 +98,11 @@ public class PreguntaRespuestaServiceImpl extends GenericService implements Preg
             jn.setIdJugadorNivel(jugadorNivel);
             jn.setIdConcurso(idConcurso);
             jn.setdNivel(nivel.getNivel());
-            jn.setSerieActual(ban ? serieActual : (serieActual-1));
+            jn.setSerieActual(ban ? serieActual : serie);
             jn.setIdJugador(idJugador);
             this.jugadorNivelMapper.subirSerie(jugadorNivel, serieActual);
         }
-        jn.setRecompensaGanda(recompensaGanda);
+        jn.setRecompensaGanada(recompensaGanada);
         return jn;
     }
     

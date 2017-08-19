@@ -26,14 +26,14 @@ public class JugadorNivel implements Serializable {
     private Integer idJugador;
     private Integer dNivel;
     private Integer idConcurso;
-    private String recompensaGanda;
+    private String recompensaGanada;
 
-    public void setRecompensaGanda(String recompensaGanda) {
-        this.recompensaGanda = recompensaGanda;
+    public void setRecompensaGanada(String recompensaGanada) {
+        this.recompensaGanada = recompensaGanada;
     }
 
-    public String getRecompensaGanda() {
-        return recompensaGanda;
+    public String getRecompensaGanada() {
+        return recompensaGanada;
     }
 
     public void setIdConcurso(Integer idConcurso) {
