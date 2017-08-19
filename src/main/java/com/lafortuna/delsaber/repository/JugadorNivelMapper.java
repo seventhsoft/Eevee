@@ -15,6 +15,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.dao.DataAccessException;
 
 /**
@@ -55,11 +56,20 @@ public interface JugadorNivelMapper {
                 "(select distinct count(serie) from serie s where s.id_jugador_nivel = jn.id_jugador_nivel) seriesJugador, " +
                 "(select case when count(*) > 0 then true else false end from jugador_recompensa jr " +
                 "inner join recompensa_concurso rc on rc.id_recompensa_concurso = jr.id_recompensa_concurso and rc.id_nivel = n.id_nivel)  tieneRecompensa, " +
-                "coalesce((select rc.cantidad - (select count(*) from jugador_recompensa jr2 where jr2.id_recompensa_concurso = rc.id_recompensa_concurso ) " +
+                "coalesce((select sum(rc.cantidad - (select count(*) from jugador_recompensa jr2 where jr2.id_recompensa_concurso = rc.id_recompensa_concurso )) " +
                 "from recompensa_concurso rc where rc.id_nivel = n.id_nivel),0) recompensasDisponibles " +
             "from nivel n " +
             "inner join concurso c on c.id_concurso = n.id_concurso and c.id_estado_concurso = #{idConcurso} " +
             "left join jugador_nivel jn on jn.id_nivel = n.id_nivel and jn.id_jugador = #{idJugador} " +
             "order by n.nivel")
     List<NivelJugadorDTO> getJugadorNivel(@Param("idConcurso") Integer idConcurso, @Param("idJugador") Integer idJugador);
+    
+    @Insert("insert into jugador_nivel(id_jugador, id_nivel, serie_actual) values(#{idJugador}, "
+            +"(select id_nivel from nivel where id_concurso = #{idConcurso} AND nivel = #{dNivel} )," 
+            +"#{serieActual})")
+    @Options(useGeneratedKeys = true, keyProperty = "idJugadorNivel", keyColumn = "id_jugador_nivel")
+    void subirNivel(JugadorNivel jugadorNivel) throws DataAccessException;
+    
+    @Update("update jugador_nivel set serie_actual = #{serieActual} where id_jugador_nivel = #{idJugadorNivel}")
+    void subirSerie(@Param("idJugadorNivel") Integer idJugadorNivel, @Param("serieActual") Integer serieActual) throws DataAccessException;;
 }

@@ -23,6 +23,7 @@ public class Pregunta implements Serializable {
     private String descripcion;
     private String ruta;
     private String clase;
+    private String bannerPregunta;
     private boolean activo;
     private Date fechaRegistro;
     private Dificultad dificultad;
@@ -30,6 +31,14 @@ public class Pregunta implements Serializable {
     private List<Respuesta> respuestaList;
 
     public Pregunta() {
+    }
+
+    public void setBannerPregunta(String bannerPregunta) {
+        this.bannerPregunta = bannerPregunta;
+    }
+
+    public String getBannerPregunta() {
+        return bannerPregunta;
     }
 
     public Pregunta(Integer idPregunta) {

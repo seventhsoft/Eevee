@@ -82,7 +82,7 @@ public interface PreguntaMapper {
                                     @Param("cantidad") long cantidad);
     
     @Results(id = "respuestasPregunta", value = {
-        @Result(column = "id_respuesta", property = "idPregunta"),
+        @Result(column = "id_respuesta", property = "idRespuesta"),
         @Result(column = "descripcion", property = "descripcion"),
         @Result(column = "correcta", property = "correcta") 
     })

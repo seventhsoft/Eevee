@@ -5,8 +5,6 @@
  */
 package com.lafortuna.delsaber.service.concurso.serie;
 
-import com.lafortuna.delsaber.model.PorcionSerieDTO;
-import java.util.List;
 import java.util.Map;
 import org.springframework.security.core.Authentication;
 
@@ -15,5 +13,5 @@ import org.springframework.security.core.Authentication;
  * @author Cliente
  */
 public interface SerieService {
-    List<PorcionSerieDTO> getSerieByJugador(Authentication auth, Integer idJugadorNivel);
+    Map<String, Object> getSerieByJugador(Authentication auth, Integer idJugadorNivel);
 }

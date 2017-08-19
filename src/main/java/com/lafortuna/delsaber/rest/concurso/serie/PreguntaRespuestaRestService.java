@@ -5,14 +5,15 @@
  */
 package com.lafortuna.delsaber.rest.concurso.serie;
 
-import com.lafortuna.delsaber.model.PorcionSerieDTO;
+import com.lafortuna.delsaber.model.Recompensa;
 import com.lafortuna.delsaber.service.concurso.serie.PreguntaRespuestaService;
 import com.lafortuna.delsaber.service.GenericService;
 import com.lafortuna.delsaber.service.concurso.serie.SerieService;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,16 +36,21 @@ public class PreguntaRespuestaRestService extends GenericService {
     private SerieService serieService;
     
     @RequestMapping(value = "/preguntarespuesta", method = RequestMethod.POST,  consumes="application/json")
-    public Map<String, String>insertSerie(@RequestBody Map<String, Integer> map){
+    public ResponseEntity<?> insertSerie(@RequestBody Map<String, Integer> map, Authentication auth){
         
         Map<String,String> result = new HashMap<>();
-        result.put("msg", "ok");
-        this.preguntaRespuestaService.insertSerie(map);
-        return result;
+        result.put("msg", "no cuenta con recompensa");
+        
+        Recompensa recompensa = this.preguntaRespuestaService.insertSerie(map,auth);
+        
+        if(objetoValido(recompensa)){
+             return new ResponseEntity<Recompensa>(recompensa, HttpStatus.OK);
+        }
+        return new ResponseEntity<Map<String, String>>(result, HttpStatus.OK);
     }
     
     @RequestMapping(method = RequestMethod.GET)
-    public List<PorcionSerieDTO> getSerie(Authentication auth, @RequestParam("idJugadorNivel") Integer idJugadorNivel){
+    public Map<String, Object> getSerie(Authentication auth, @RequestParam("idJugadorNivel") Integer idJugadorNivel){
         return this.serieService.getSerieByJugador(auth, idJugadorNivel);
     }
     
