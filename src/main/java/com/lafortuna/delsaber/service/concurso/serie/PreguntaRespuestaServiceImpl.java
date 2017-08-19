@@ -61,7 +61,7 @@ public class PreguntaRespuestaServiceImpl extends GenericService implements Preg
         try{
             this.preguntaRespuestaMapper.insertSerie(jugadorNivel, respuesta, serie);
             JugadorNivel jugadorNivelDTO = this.avanzaSerie(auth,jugadorNivel,serie,idConcurso,perfecta);            
-           Recompensa recompensa = this.preguntaRespuestaMapper.getRecompensaConcurso(jugadorNivel);
+            Recompensa recompensa = this.preguntaRespuestaMapper.getRecompensaConcurso(jugadorNivel);
             Map<String,Object> result;
             result = new HashMap<>();
             result.put("recompensa", recompensa);
@@ -72,7 +72,7 @@ public class PreguntaRespuestaServiceImpl extends GenericService implements Preg
             throw new InternalServerException("Error al guardar serie: "+e);
         }
     }
-
+    
     private JugadorNivel avanzaSerie(Authentication auth,Integer jugadorNivel,Integer serie,Integer idConcurso, Integer perfecta){
         Nivel nivel = this.nivelMapper.getNivelByJugadorNivel(jugadorNivel);
         Integer serieActual = serie + 1;
