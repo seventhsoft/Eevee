@@ -23,8 +23,8 @@ import org.springframework.dao.DataAccessException;
 public interface JugadorRecompensaMapper {
     
     @Results(id = "getRecompensaConcurso", value = {
+        @Result(column = "idRecompensaConcurso", property = "id_recompensa_concurso", id=true),
         @Result(column = "descripcion", property = "descripcion"),
-        @Result(column = "idRecompensaConcurso", property = "id_recompensa_concurso"),
         @Result(column = "codigo", property = "codigo")
     })
     @Select("select case when (select rc.cantidad - (select count(*) from jugador_recompensa jr2 where jr2.id_recompensa_concurso = rc.id_recompensa_concurso ) " +

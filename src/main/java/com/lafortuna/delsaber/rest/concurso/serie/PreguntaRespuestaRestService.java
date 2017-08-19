@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,24 +25,21 @@ import org.springframework.web.bind.annotation.RestController;
  * @author cliente
  */
 @RestController
-@RequestMapping("/serie")
+@RequestMapping("concurso/serie")
 public class PreguntaRespuestaRestService extends GenericService {
     
     @Autowired
     private PreguntaRespuestaService preguntaRespuestaService;
     
-    @RequestMapping(value = "/preguntarespuesta", method = RequestMethod.POST,  consumes="application/json")
+    @RequestMapping(value = "/preguntarespuesta", method = RequestMethod.POST,  consumes="application/json", produces = MediaType.APPLICATION_JSON_VALUE )
     public ResponseEntity<?> insertSerie(@RequestBody Map<String, Integer> map, Authentication auth){
-        
         Map<String,String> result = new HashMap<>();
-        result.put("msg", "no cuenta con recompensa");
-        
-        Recompensa recompensa = this.preguntaRespuestaService.insertSerie(map,auth);
-        
+        result.put("msg", "no cuenta con recompensa");    
+        ResponseEntity<?> recompensa = this.preguntaRespuestaService.insertSerie(map,auth);
         if(objetoValido(recompensa)){
-             return new ResponseEntity<Recompensa>(recompensa, HttpStatus.OK);
+            return recompensa;
         }
-        return new ResponseEntity<Map<String, String>>(result, HttpStatus.OK);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
     
 }

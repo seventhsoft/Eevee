@@ -5,16 +5,28 @@
  */
 package com.lafortuna.delsaber.model;
 
+import java.io.Serializable;
+
 /**
  *
  * @author cliente
  */
-public class RecompensaConcursoNivelDTO {
-    
+public class RecompensaConcursoNivelDTO implements Serializable{
+    private static final long serialVersionUID = 1L;
     private String descripcion;
     private Integer idRecompensaConcurso;
     private String codigo;
 
+    public RecompensaConcursoNivelDTO(){
+   
+    }
+    
+    public RecompensaConcursoNivelDTO(String descripcion, Integer idRecompensaConcurso, String codigo ){
+        this.descripcion = descripcion;
+        this.idRecompensaConcurso = idRecompensaConcurso;
+        this.codigo = codigo;
+    }
+    
     /**
      * @return the descripcion
      */
