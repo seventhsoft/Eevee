@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.lafortuna.delsaber.rest.concurso;
+package com.lafortuna.delsaber.service.concurso;
 
 import com.lafortuna.delsaber.exception.InternalServerException;
 import com.lafortuna.delsaber.repository.ConcursoMapper;
@@ -29,9 +29,9 @@ public class ActivacionConcursoServiceImpl extends GenericService implements Act
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void activarConcurso(Integer idConcurso) {
-        try{
-            this.concursoMapper.activarConcurso(idConcurso);
+    public void activarConcurso() {
+        try{    
+            this.concursoMapper.activarConcurso();
         }catch(DataAccessException e){
             this.log.error(this.getClass().getName() + ":activarConcurso ex:" + e);
             throw new InternalServerException("Error al activar el concurso ");
@@ -40,12 +40,12 @@ public class ActivacionConcursoServiceImpl extends GenericService implements Act
     
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void finalizarConcurso(Integer idConcurso) {
+    public void finalizarConcurso() {
         try{
-            this.concursoMapper.finalizarConcurso(idConcurso);
+            this.concursoMapper.finalizarConcurso();
         }catch(DataAccessException e){
             this.log.error(this.getClass().getName() + ":finalizarConcurso ex:" + e);
             throw new InternalServerException("Error al finalizar el cncurso"); 
         }
-    }
+    }    
 }

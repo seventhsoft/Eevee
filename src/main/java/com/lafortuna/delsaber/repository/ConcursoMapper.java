@@ -34,9 +34,11 @@ public interface ConcursoMapper {
             + "where c.activo = false")
     Concurso getFechaConcursoActual();
 
-    @Update("update concurso set id_estado_concurso = 4 where id_concurso = #{idConcurso} ")
-    void activarConcurso(Integer idConcurso) throws DataAccessException;;
+    @Update("update concurso set id_estado_concurso = 1 "
+            + "where id_concurso = (select id_concurso from concurso where now() between fecha_inicio "
+            + "and fecha_fin and id_estado_concurso = 2 limit 1) ")
+    void activarConcurso() throws DataAccessException;;
     
-    @Update("update concurso set id_estado_concurso = 4 where id_concurso = #{idConcurso} ")
-	void finalizarConcurso(Integer idConcurso) throws DataAccessException;
+    @Update("update concurso set id_estado_concurso = 4 where id_concurso = (select id_concurso from concurso where now() > fecha_fin and id_estado_concurso = 1 limit 1) ")
+    void finalizarConcurso() throws DataAccessException;
 }

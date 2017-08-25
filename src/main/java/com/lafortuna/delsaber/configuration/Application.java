@@ -19,7 +19,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @SpringBootApplication
 //@EnableJpaRepositories(basePackages = "org.mario.springboot.repository")
 //@EntityScan(basePackages = "org.mario.springboot.model")
-@ComponentScan(basePackages = {"com.lafortuna.delsaber.rest", "com.lafortuna.delsaber.service","com.lafortuna.delsaber.configuration"})
+@ComponentScan(basePackages = {"com.lafortuna.delsaber.rest", "com.lafortuna.delsaber.service","com.lafortuna.delsaber.configuration", "com.lafortuna.delsaber.task"})
 @MapperScan("com.lafortuna.delsaber.repository")
 public class Application {
     public static void main(String ... args) throws Throwable

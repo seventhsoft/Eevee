@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.lafortuna.delsaber.rest.concurso;
+package com.lafortuna.delsaber.service.concurso;
 
 /**
  *
@@ -11,7 +11,6 @@ package com.lafortuna.delsaber.rest.concurso;
  */
 public interface ActivacionConcursoService {
     
-    void activarConcurso(Integer idConcurso);
-    
-    void finalizarConcurso(Integer idConcurso);
+    void activarConcurso();
+    void finalizarConcurso();
 }
