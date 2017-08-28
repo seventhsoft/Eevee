@@ -25,7 +25,7 @@ public class Task {
     ActivacionConcursoService activacionConcursoService;
     
     //0 45/1 * * * ?
-    @Scheduled(cron="0 0 0 1 9/12 ? *")
+    @Scheduled(cron="0 0 0 1 9/12 ?")
     public void activarConcurso(){
         log.info("se Activa el concurso");
         this.activacionConcursoService.finalizarConcurso();
