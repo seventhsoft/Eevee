@@ -29,6 +29,7 @@ public class OAuth2ResourceServerConfig extends ResourceServerConfigurerAdapter 
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/banner/interaccion").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.PUT, "/banner").hasAnyRole("ADMIN", "JUGADOR", "PATROCINADOR", "ANUNCIANTE");
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/usuarios/perfil").hasAnyRole("ADMIN", "JUGADOR", "PATROCINADOR", "ANUNCIANTE");
+        http.authorizeRequests().antMatchers("/concurso/serie").hasAnyRole("ADMIN", "JUGADOR", "PATROCINADOR", "ANUNCIANTE");
     }
     
 }

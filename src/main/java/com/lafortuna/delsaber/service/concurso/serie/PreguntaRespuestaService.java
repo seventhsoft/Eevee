@@ -5,7 +5,6 @@
  */
 package com.lafortuna.delsaber.service.concurso.serie;
 
-import com.lafortuna.delsaber.model.Recompensa;
 import java.util.Map;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
