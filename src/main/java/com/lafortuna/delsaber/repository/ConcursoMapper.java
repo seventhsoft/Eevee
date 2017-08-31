@@ -26,8 +26,8 @@ public interface ConcursoMapper {
         @Result(column = "fecha_fin", property = "fechaFin")
     })
     @Select("select "
-            + "    id_concurso,       "
-            + "    descripcion,       "
+            + "    c.id_concurso,      "
+            + "    c.descripcion,     "
             + "    c.fecha_inicio,    "
             + "    c.fecha_fin        "
             + "from concurso c        "

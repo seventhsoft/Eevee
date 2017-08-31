@@ -36,10 +36,9 @@ public class Task {
         this.activacionConcursoService.activarConcurso();
     }
     
-    //@Scheduled(cron="0 0 0 L * ?")
-//    @Scheduled(cron="0 34/1 * * * ?")
-//    public void premioMayor(){
-//        log.info("se define el premio actual el concurso");
-//        this.recompensaService.premioMayor();
-//    }
+    @Scheduled(cron="0 0 0 L * ?")
+    public void premioMayor(){
+        log.info("se define el premio actual el concurso");
+        this.recompensaService.premioMayor();
+    }
 }

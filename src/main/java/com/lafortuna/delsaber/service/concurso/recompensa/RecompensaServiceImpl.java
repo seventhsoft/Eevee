@@ -90,7 +90,7 @@ public class RecompensaServiceImpl extends GenericService implements RecompensaS
                 parametros.put("concurso", concurso.getDescripcion());
                 parametros.put("recompensa", recompensa.getDescripcion());
                 parametros.put("vigencia", vigencia);
-                parametros.put("nombre", p.getNombre() + p.getApaterno());
+                parametros.put("nombre", p.getNombre() + " " +p.getApaterno());
                 this.mailService.enviaCorreoPremioMayor(p.getCorreo(), parametros);
             }
         }else if(objetoValido(recompensa)){

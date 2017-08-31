@@ -69,7 +69,7 @@ public class Persona implements Serializable {
     }
 
     public String getApaterno() {
-        return apaterno + " " + amaterno;
+        return apaterno + " " + (amaterno == null ? "" : amaterno);
     }
 
     public void setApaterno(String apaterno) {
