@@ -5,26 +5,39 @@
  */
 package com.lafortuna.delsaber.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  *
  * @author cliente
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class RecompensaConcursoNivelDTO implements Serializable{
     private static final long serialVersionUID = 1L;
     private String descripcion;
     private Integer idRecompensaConcurso;
     private String codigo;
+    private Date vigencia;
 
     public RecompensaConcursoNivelDTO(){
    
     }
     
-    public RecompensaConcursoNivelDTO(String descripcion, Integer idRecompensaConcurso, String codigo ){
+    public RecompensaConcursoNivelDTO(String descripcion, Integer idRecompensaConcurso, String codigo, Date vigencia){
         this.descripcion = descripcion;
         this.idRecompensaConcurso = idRecompensaConcurso;
         this.codigo = codigo;
+        this.vigencia = vigencia;
+    }
+
+    public void setVigencia(Date vigencia) {
+        this.vigencia = vigencia;
+    }
+
+    public Date getVigencia() {
+        return vigencia;
     }
     
     /**

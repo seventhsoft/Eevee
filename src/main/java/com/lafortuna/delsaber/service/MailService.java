@@ -73,4 +73,21 @@ public class MailService {
             log.error(this.getClass().getName() + "Error al mandar recuperar html " + e);
         }
     }
+    
+    @Async
+    public void enviaCorreoPremioMayor(String toMail, Map<String,String> parametros){
+        MimeMessagePreparator messagePreparator = mimeMessage ->{
+            MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
+            messageHelper.setFrom("info@juegakuni.mx");
+            messageHelper.setTo(toMail);
+            messageHelper.setSubject("¡Felicidades! haz ganado el premio mayor de KUNI");
+            String content = mailContentBuilder.build(Constant.PREMIO_HTML_TEMPLATE, parametros);
+            messageHelper.setText(content, true);
+        };
+        try{
+            javaMailSender.send(messagePreparator);
+        } catch (MailException e){
+            log.error(this.getClass().getName() + "Error al mandar recuperar html " + e);
+        }
+    }
 }

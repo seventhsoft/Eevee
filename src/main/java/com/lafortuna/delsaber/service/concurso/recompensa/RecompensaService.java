@@ -17,4 +17,5 @@ public interface RecompensaService {
     
     List<Recompensa> recompensaByConcurso(Integer idConcurso);
     List<Recompensa> recompensaByJugador(Authentication auth);
+    void premioMayor();
 }

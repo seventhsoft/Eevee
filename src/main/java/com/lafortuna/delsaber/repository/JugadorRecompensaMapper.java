@@ -6,7 +6,9 @@
 package com.lafortuna.delsaber.repository;
 
 import com.lafortuna.delsaber.model.JugadorRecompensa;
+import com.lafortuna.delsaber.model.Persona;
 import com.lafortuna.delsaber.model.RecompensaConcursoNivelDTO;
+import com.lafortuna.delsaber.util.Constant;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -34,11 +36,23 @@ public interface JugadorRecompensaMapper {
             "inner join recompensa r on rc.id_recompensa = r.id_recompensa " +
             "inner join recompensa_codigo rco on r.id_recompensa = rco.id_recompensa " +
             "where rc.id_nivel = #{idNivel} " +
-            "limit 1")
+            "AND r.id_tipo_recompensa = "+ Constant.TIPO_RECOMPENSA_NIVEL + " limit 1")
     RecompensaConcursoNivelDTO getRecompensaConcurso(@Param("idNivel") Integer idNivel);
     
     @Insert("insert into jugador_recompensa (id_recompensa_concurso, id_jugador, codigo, observacion, redimido ) values "
             + "(#{idRecompensaConcurso}, #{idJugador}, #{codigo}, #{observacion}, false) ")
 	void insertJugadorRecompensa(JugadorRecompensa jugadorRecompensa) throws DataAccessException;
+
+    @Results(id = "getPersonaByIdJugador", value = {
+        @Result(column = "id_persona", property = "idPersona", id=true),
+        @Result(column = "nombre", property = "nombre"),
+        @Result(column = "apaterno", property = "apaterno"),
+        @Result(column = "correo", property = "correo")
+    })
+    @Select("select p.id_persona, p.nombre, p.apaterno , p.correo " +
+            "from persona p " +
+            "inner join jugador j on j.id_persona = p.id_persona " +
+            "where j.id_jugador = #{idJugador}")
+    Persona getPersonaByIdJugador(Integer idJugador);
     
 }

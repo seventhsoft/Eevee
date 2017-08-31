@@ -29,6 +29,10 @@ public class Constant {
     public static final String BANNER_INTERACION = "http://api.juegakuni.com.mx/lfs/banner/interaccion";
     public static final int TOTAL_PREGUNTAS_POR_SERIE = 6 ;
     public static final int SERIE_PERFECTA = 1 ;
+    public static final int TIPO_RECOMPENSA_NIVEL = 1 ;
+    public static final int TIPO_RECOMPENSA_MAYOR = 2 ;
+    public static final int TIPO_RECOMPENSA_ALEATORIO = 1 ;
+    public static final String PREMIO_HTML_TEMPLATE = "premio";
     //dificultad
     public static final int DIFICULTAD_FACIL = 1 ;
     public static final int DIFICULTAD_MEDIA = 2 ;
