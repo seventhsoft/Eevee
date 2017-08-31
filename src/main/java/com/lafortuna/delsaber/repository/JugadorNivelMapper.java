@@ -59,7 +59,7 @@ public interface JugadorNivelMapper {
                 "coalesce((select sum(rc.cantidad - (select count(*) from jugador_recompensa jr2 where jr2.id_recompensa_concurso = rc.id_recompensa_concurso )) " +
                 "from recompensa_concurso rc where rc.id_nivel = n.id_nivel),0) recompensasDisponibles " +
             "from nivel n " +
-            "inner join concurso c on c.id_concurso = n.id_concurso and c.id_estado_concurso = #{idConcurso} " +
+            "inner join concurso c on c.id_concurso = n.id_concurso and c.id_estado_concurso = 1 and c.id_concurso = #{idConcurso} " +
             "left join jugador_nivel jn on jn.id_nivel = n.id_nivel and jn.id_jugador = #{idJugador} " +
             "order by n.nivel")
     List<NivelJugadorDTO> getJugadorNivel(@Param("idConcurso") Integer idConcurso, @Param("idJugador") Integer idJugador);
