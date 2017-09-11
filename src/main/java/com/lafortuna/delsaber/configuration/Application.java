@@ -22,8 +22,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @ComponentScan(basePackages = {"com.lafortuna.delsaber.rest", "com.lafortuna.delsaber.service","com.lafortuna.delsaber.configuration", "com.lafortuna.delsaber.task"})
 @MapperScan("com.lafortuna.delsaber.repository")
 public class Application {
-    public static void main(String ... args) throws Throwable
-    {
+    public static void main(String ... args) throws Throwable {
         SpringApplication.run(Application.class, args);
     }
     
