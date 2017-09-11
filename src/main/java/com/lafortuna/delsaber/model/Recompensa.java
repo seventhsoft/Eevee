@@ -27,6 +27,8 @@ public class Recompensa implements Serializable {
     private Patrocinador patrocinador;
     private TipoRecompensa tipoRecompensa;
     private boolean redimido;
+    private String codigo;
+    private String organizacion;
     private List<RecompensaConcurso> recompensaConcursoList;
 
     public Recompensa() {
@@ -124,5 +126,21 @@ public class Recompensa implements Serializable {
 
     public void setRedimido(boolean redimido) {
         this.redimido = redimido;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setOrganizacion(String organizacion) {
+        this.organizacion = organizacion;
+    }
+
+    public String getOrganizacion() {
+        return organizacion;
     }
 }

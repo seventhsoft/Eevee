@@ -26,12 +26,15 @@ public interface RecompensaMapper {
         @Result(column = "id_recompensa", property = "idRecompensa", id=true),
         @Result(column = "descripcion", property = "descripcion"),
         @Result(column = "vigencia", property = "vigencia"),
-        @Result(column = "cantidad", property = "cantidad")
+        @Result(column = "cantidad", property = "cantidad"),
+        @Result(column = "organizacion", property = "organizacion")
     })
-    @Select("select r.id_recompensa, r.descripcion, r.vigencia, rc.cantidad "
+    @Select("select r.id_recompensa, r.descripcion, r.vigencia, rc.cantidad, per.organizacion "
             + "from recompensa r "
             + "inner join recompensa_concurso rc on r.id_recompensa = rc.id_recompensa "
             + "inner join nivel n on rc.id_nivel = n.id_nivel "
+            +"inner join patrocinador p on r.id_patrocinador = p.id_patrocinador "
+            +"inner join persona per on p.id_persona = per.id_persona "
             + "where n.id_concurso = #{idConcurso}")
     List<Recompensa> getRecompensasByConcurso( @Param("idConcurso") Integer idConcurso);
 
@@ -40,15 +43,20 @@ public interface RecompensaMapper {
         @Result(column = "descripcion", property = "descripcion"),
         @Result(column = "vigencia", property = "vigencia"),
         @Result(column = "cantidad", property = "cantidad"),
-        @Result(column = "redimido", property = "redimido")
+        @Result(column = "redimido", property = "redimido"),
+        @Result(column = "codigo", property = "codigo"),
+        @Result(column = "organizacion", property = "organizacion")
     })
-    @Select("select r.id_recompensa, r.descripcion, r.vigencia, jr.redimido " +
-            "from recompensa r " +
-            "inner join recompensa_concurso rc on r.id_recompensa = rc.id_recompensa " +
-            "inner join nivel n on rc.id_nivel = n.id_nivel " +
-            "inner join jugador_recompensa jr on rc.id_recompensa_concurso = jr.id_recompensa_concurso " +
-            "where jr.id_jugador = #{idJugador} " +
-            "and r.vigencia >= now()")
+    @Select("select r.id_recompensa, r.descripcion, r.vigencia, jr.redimido , rco.codigo, per.organizacion "
+            +"from recompensa r "
+            +"inner join recompensa_codigo rco on r.id_recompensa = rco.id_recompensa "
+            +"inner join recompensa_concurso rc on r.id_recompensa = rc.id_recompensa "
+            +"inner join nivel n on rc.id_nivel = n.id_nivel "
+            +"inner join jugador_recompensa jr on rc.id_recompensa_concurso = jr.id_recompensa_concurso "
+            +"inner join patrocinador p on r.id_patrocinador = p.id_patrocinador "
+            +"inner join persona per on p.id_persona = per.id_persona "
+            +"where jr.id_jugador = #{idJugador} "
+            +"and r.vigencia >= now()")
     List<Recompensa > getRecompensasByJugador(@Param("idJugador") Integer idJugador);
 
     
