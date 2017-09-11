@@ -6,6 +6,7 @@
 package com.lafortuna.delsaber.task;
 
 import com.lafortuna.delsaber.service.concurso.ActivacionConcursoService;
+import com.lafortuna.delsaber.service.concurso.recompensa.RecompensaService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +25,20 @@ public class Task {
     @Autowired
     ActivacionConcursoService activacionConcursoService;
     
+    @Autowired
+    RecompensaService recompensaService;
+    
     //0 45/1 * * * ?
     @Scheduled(cron="0 0 0 1 9/12 ?")
     public void activarConcurso(){
         log.info("se Activa el concurso");
         this.activacionConcursoService.finalizarConcurso();
         this.activacionConcursoService.activarConcurso();
+    }
+    
+    @Scheduled(cron="0 0 0 L * ?")
+    public void premioMayor(){
+        log.info("se define el premio actual el concurso");
+        this.recompensaService.premioMayor();
     }
 }
