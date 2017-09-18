@@ -12,6 +12,7 @@ import com.lafortuna.delsaber.repository.PreguntaMapper;
 import com.lafortuna.delsaber.service.GenericService;
 import java.io.IOException;
 import java.util.Iterator;
+import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -43,40 +44,42 @@ public class PreguntaServiceImpl extends GenericService implements PreguntaServi
             XSSFWorkbook excel = new XSSFWorkbook(file.getInputStream());
             XSSFSheet hoja = excel.getSheetAt(0);
             Iterator filas = hoja.iterator();
-            while(filas.hasNext()) {
+            while(filas.hasNext()) {                
                 countFila++;
                 XSSFRow fila = (XSSFRow) filas.next();
+                if(fila.getCell(0).getStringCellValue().isEmpty()) {
+                    break;
+                }
                 
                 Pregunta p = new Pregunta();
-                p.setIdDificultad(getDificulta(fila.getCell(1).getStringCellValue()));
+                p.setIdDificultad(getDificulta(fila.getCell(3).getStringCellValue()));
                 p.setDescripcion(fila.getCell(0).getStringCellValue());
-                p.setClase(fila.getCell(4).getStringCellValue());
-                p.setRuta("");
+                p.setClase(fila.getCell(1).getStringCellValue());
+                p.setRuta(fila.getCell(2).getStringCellValue());
                 this.preguntaMapper.guardarPregunta(p);
                 
                 Respuesta r1 = new Respuesta();
                 r1.setIdPregunta(p.getIdPregunta());
-                r1.setDescripcion(fila.getCell(2).getStringCellValue());
+                r1.setDescripcion(getDescripcionRespuesta(fila.getCell(4)));
                 r1.setOrden(1);
                 r1.setCorrecta(Boolean.TRUE);
                 
                 Respuesta r2 = new Respuesta();
-                r1.setIdPregunta(p.getIdPregunta());
-                r1.setDescripcion(fila.getCell(5).getStringCellValue());
-                r1.setOrden(2);
-                r1.setCorrecta(Boolean.FALSE);
+                r2.setIdPregunta(p.getIdPregunta());
+                r2.setDescripcion(getDescripcionRespuesta(fila.getCell(6)));
+                r2.setOrden(2);
+                r2.setCorrecta(Boolean.FALSE);
                 
                 Respuesta r3 = new Respuesta();
-                r1.setIdPregunta(p.getIdPregunta());
-                r1.setDescripcion(fila.getCell(6).getStringCellValue());
-                r1.setOrden(3);
-                r1.setCorrecta(Boolean.FALSE);               
+                r3.setIdPregunta(p.getIdPregunta());
+                r3.setDescripcion(getDescripcionRespuesta(fila.getCell(8)));
+                r3.setOrden(3);
+                r3.setCorrecta(Boolean.FALSE);               
                 
                 this.preguntaMapper.guardarRespuesta(r1);
                 this.preguntaMapper.guardarRespuesta(r2);
-                this.preguntaMapper.guardarRespuesta(r3);
+                this.preguntaMapper.guardarRespuesta(r3); 
             }
-            throw new DataAccessException("Error") { };
         } catch (DataAccessException | IOException e) {
             throw new InternalServerException("Error al leer el excel fila: " + (countFila-1) + " error: " + e);
         }
@@ -91,4 +94,11 @@ public class PreguntaServiceImpl extends GenericService implements PreguntaServi
         return 1;
     }
     
+    public String getDescripcionRespuesta(XSSFCell cell) {        
+        if(cell.getCellType() == XSSFCell.CELL_TYPE_NUMERIC) {            
+            return Double.toString(cell.getNumericCellValue());
+        } else {        
+            return cell.getStringCellValue();
+        }        
+    }
 }
