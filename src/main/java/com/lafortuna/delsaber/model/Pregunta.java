@@ -20,6 +20,7 @@ public class Pregunta implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private Integer idPregunta;
+    private Integer idDificultad;
     private String descripcion;
     private String ruta;
     private String clase;
@@ -31,6 +32,14 @@ public class Pregunta implements Serializable {
     private List<Respuesta> respuestaList;
 
     public Pregunta() {
+    }
+
+    public void setIdDificultad(Integer idDificultad) {
+        this.idDificultad = idDificultad;
+    }
+
+    public Integer getIdDificultad() {
+        return idDificultad;
     }
 
     public void setBannerPregunta(String bannerPregunta) {

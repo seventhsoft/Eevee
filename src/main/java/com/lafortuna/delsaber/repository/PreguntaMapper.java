@@ -9,12 +9,15 @@ import com.lafortuna.delsaber.model.PorcionSerieDTO;
 import com.lafortuna.delsaber.model.Pregunta;
 import com.lafortuna.delsaber.model.Respuesta;
 import java.util.List;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.MapKey;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
+import org.springframework.dao.DataAccessException;
 
 /**
  *
@@ -124,4 +127,11 @@ public interface PreguntaMapper {
     "from pregunta p " +
     "where  p.activo = false order by random() limit #{cantidad} ")
     List<Pregunta> getPreguntasAleatorias(@Param("cantidad") long cantidad);
+    
+    @Insert("insert into pregunta(id_dificultad, descripcion, ruta, clase) values(#{idDificultad}, #{descripcion}, #{ruta}, #{clase})")
+    @Options(useGeneratedKeys = true, keyColumn = "id_pregunta", keyProperty = "idPregunta")        
+    void guardarPregunta(Pregunta pregunta) throws DataAccessException;
+    
+    @Insert("insert into respuesta(id_pregunta, descripcion, orden, correcta) values(#{idPregunta}, #{descripcion}, #{orden}, #{correcta})") 
+    void guardarRespuesta(Respuesta respuesta) throws DataAccessException;
 }

@@ -19,6 +19,7 @@ public class Respuesta implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private Integer idRespuesta;
+    private Integer idPregunta;
     private String descripcion;
     private int orden;
     private boolean correcta;
@@ -45,6 +46,14 @@ public class Respuesta implements Serializable {
 
     public Integer getIdRespuesta() {
         return idRespuesta;
+    }
+
+    public Integer getIdPregunta() {
+        return idPregunta;
+    }
+
+    public void setIdPregunta(Integer idPregunta) {
+        this.idPregunta = idPregunta;
     }
 
     public void setIdRespuesta(Integer idRespuesta) {
