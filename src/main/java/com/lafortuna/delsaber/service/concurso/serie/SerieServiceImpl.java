@@ -134,14 +134,14 @@ public class SerieServiceImpl extends GenericService implements SerieService {
         Integer dMedia = proporcionPreguntas.get(1).getDisponibles().intValue();
         Integer dDificil = proporcionPreguntas.get(2).getDisponibles().intValue();
         
-        if(dFacil > dFacil && dFacil > dDificil) {
-            proporcionPreguntas.get(0).setPreguntas(dFacil+1);
+        if(dFacil > dMedia && dFacil > dDificil) {
+            proporcionPreguntas.get(0).setPreguntas(proporcionPreguntas.get(0).getPreguntas()+1);
         }
         if(dMedia > dFacil && dMedia > dDificil) {
-            proporcionPreguntas.get(1).setPreguntas(dMedia+1);
+            proporcionPreguntas.get(1).setPreguntas(proporcionPreguntas.get(1).getPreguntas()+1);
         }
         if(dDificil > dFacil && dDificil > dMedia) {
-            proporcionPreguntas.get(2).setPreguntas(dDificil+1);
+            proporcionPreguntas.get(2).setPreguntas(proporcionPreguntas.get(2).getPreguntas()+1);
         }
     }
     
