@@ -5,10 +5,14 @@
  */
 package com.lafortuna.delsaber.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import java.util.Date;
+
 /**
  *
  * @author cliente
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class PatrocinadorPersona {
     
     private Integer idPersona;
@@ -20,6 +24,11 @@ public class PatrocinadorPersona {
     private Integer idUsuario;
     private String usuario;
     private Integer idPatrocinador;
+    private String telefono;
+    private boolean activo;
+    private Date fechaRegistro;
+    private Integer totalPreguntasMensaje;
+    private Integer totalRecompensas;
 
     /**
      * @return the idPersona
@@ -145,5 +154,75 @@ public class PatrocinadorPersona {
      */
     public void setIdPatrocinador(Integer idPatrocinador) {
         this.idPatrocinador = idPatrocinador;
+    }
+
+    /**
+     * @return the telefono
+     */
+    public String getTelefono() {
+        return telefono;
+    }
+
+    /**
+     * @param telefono the telefono to set
+     */
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    /**
+     * @return the activo
+     */
+    public boolean isActivo() {
+        return activo;
+    }
+
+    /**
+     * @param activo the activo to set
+     */
+    public void setActivo(boolean activo) {
+        this.activo = activo;
+    }
+
+    /**
+     * @return the fechaRegistro
+     */
+    public Date getFechaRegistro() {
+        return fechaRegistro;
+    }
+
+    /**
+     * @param fechaRegistro the fechaRegistro to set
+     */
+    public void setFechaRegistro(Date fechaRegistro) {
+        this.fechaRegistro = fechaRegistro;
+    }
+
+    /**
+     * @return the totalPreguntasMensaje
+     */
+    public Integer getTotalPreguntasMensaje() {
+        return totalPreguntasMensaje;
+    }
+
+    /**
+     * @param totalPreguntasMensaje the totalPreguntasMensaje to set
+     */
+    public void setTotalPreguntasMensaje(Integer totalPreguntasMensaje) {
+        this.totalPreguntasMensaje = totalPreguntasMensaje;
+    }
+
+    /**
+     * @return the totalRecompensas
+     */
+    public Integer getTotalRecompensas() {
+        return totalRecompensas;
+    }
+
+    /**
+     * @param totalRecompensas the totalRecompensas to set
+     */
+    public void setTotalRecompensas(Integer totalRecompensas) {
+        this.totalRecompensas = totalRecompensas;
     }
 }
