@@ -25,8 +25,8 @@ public class Constant {
     public static final int SERIE_UNO = 1 ;
     public static final String RECUPERAR_MAIL_TEMPLATE = "recuperar";
     public static final String BANNER_HTML_TEMPLATE = "banner";
-    public static final String RUTA_HOME_KUNI = "http://juegakuni.com.mx/index.html";
-    public static final String BANNER_INTERACION = "http://api.juegakuni.com.mx/lfs/banner/interaccion";
+    public static final String RUTA_HOME_KUNI = "http://juegakuni.mx/index.html";
+    public static final String BANNER_INTERACION = "http://api.juegakuni.mx/lfs/banner/interaccion";
     public static final int TOTAL_PREGUNTAS_POR_SERIE = 6 ;
     public static final int SERIE_PERFECTA = 1 ;
     public static final int TIPO_RECOMPENSA_NIVEL = 1 ;
