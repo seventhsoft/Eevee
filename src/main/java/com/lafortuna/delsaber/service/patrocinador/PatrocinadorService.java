@@ -16,4 +16,8 @@ public interface PatrocinadorService {
     
     List<PatrocinadorPersona> getAllPatrocinador();
     
+    void insertPatrocinador(PatrocinadorPersona patrocinadorPersona);
+    
+    void updatePatrocinador(PatrocinadorPersona patrocinadorPersona);
+    
 }

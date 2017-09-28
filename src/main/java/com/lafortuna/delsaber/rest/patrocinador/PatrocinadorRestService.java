@@ -12,9 +12,12 @@ import org.apache.ibatis.javassist.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -34,5 +37,16 @@ public class PatrocinadorRestService {
     public List<PatrocinadorPersona> getAllPatrocinador()
     throws NotFoundException{
         return this.patrocinadorService.getAllPatrocinador();
+    }
+    
+    @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.CREATED)
+    public void insertPatrocinador(@RequestBody PatrocinadorPersona patrocinadorPersona){
+        this.patrocinadorService.insertPatrocinador(patrocinadorPersona);
+    }
+    
+    @RequestMapping(method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    public void updatePatrocinador(@RequestBody PatrocinadorPersona patrocinadorPersona){
+        this.patrocinadorService.updatePatrocinador(patrocinadorPersona);
     }
 }
