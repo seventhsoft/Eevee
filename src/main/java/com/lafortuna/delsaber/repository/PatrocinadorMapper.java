@@ -6,11 +6,16 @@
 package com.lafortuna.delsaber.repository;
 
 import com.lafortuna.delsaber.model.PatrocinadorPersona;
+import com.lafortuna.delsaber.repository.provider.PersonaProvider;
 import java.util.List;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.UpdateProvider;
+import org.springframework.dao.DataAccessException;
 
 /**
  *
@@ -51,4 +56,15 @@ public interface PatrocinadorMapper {
             +"group by p.id_patrocinador,pe.nombre,pe.apaterno, pe.organizacion,pe.telefono,pe.correo,pe.activo,pe.fecha_registro "
             +"order by p.id_patrocinador asc")
     List<PatrocinadorPersona> getAllPatrocinador();
+    
+    @Insert("insert into persona (nombre, apaterno, organizacion, telefono, correo, activo) values "
+            + "(#{nombre}, #{apaterno}, #{organizacion}, #{telefono}, #{correo}, #{activo})")
+    @Options(useGeneratedKeys = true, keyColumn = "id_persona", keyProperty = "idPersona")
+	void insertPersona(PatrocinadorPersona patrocinadorPersona) throws DataAccessException;
+        
+    @Insert("insert into patrocinador(id_persona) values (#{idPersona}) ")
+	void insertPatrocinador(PatrocinadorPersona patrocinadorPersona) throws DataAccessException;
+        
+    @UpdateProvider(type = PersonaProvider.class, method = "updatePatrocinador")           
+        void updatePatrocinador(PatrocinadorPersona patrocinadorPersona) throws DataAccessException;
 }
