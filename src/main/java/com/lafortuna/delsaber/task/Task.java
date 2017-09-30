@@ -28,17 +28,24 @@ public class Task {
     @Autowired
     RecompensaService recompensaService;
     
-    //0 45/1 * * * ?
-    @Scheduled(cron="0 0 0 1 9/12 ?")
+    
+    @Scheduled(cron="0 10 0 1 10/1 ?")
     public void activarConcurso(){
         log.info("se Activa el concurso");
         this.activacionConcursoService.finalizarConcurso();
         this.activacionConcursoService.activarConcurso();
     }
     
-//    @Scheduled(cron="0 0 0 1 * ? ")
-//    public void premioMayor(){
-//        log.info("se define el premio actual el concurso");
-//        this.recompensaService.premioMayor();
+    @Scheduled(cron="0 0 0 1 10/1 ?")
+    public void premioMayor(){
+        log.info("se define el premio actual el concurso");
+        this.recompensaService.premioMayor();
+    }
+    
+    //0 45/1 * * * ?
+//    @Scheduled(cron="0 45/1 * * * ?")
+//    public void test(){
+//        log.info("Prueba cron");
 //    }
+    
 }
