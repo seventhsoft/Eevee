@@ -51,7 +51,7 @@ public interface ConcursoMapper {
             + "inner join concurso c on n.id_concurso = c.id_concurso "
             + "where "
             + "jn.id_nivel = (select id_nivel from nivel where id_concurso = (select id_concurso from concurso where id_estado_concurso = 1 limit 1) order by nivel desc limit 1) "
-            + "AND jn.serie_actual > n.series limit 1")
+            + "AND jn.serie_actual > n.series order by jn.serie_actual desc limit 1")
     Integer getMejorJugador();
 
     @Results(id = "getAllConcurso", value = {
