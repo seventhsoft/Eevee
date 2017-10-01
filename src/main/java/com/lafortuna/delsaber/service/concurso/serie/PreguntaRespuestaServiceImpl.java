@@ -81,26 +81,41 @@ public class PreguntaRespuestaServiceImpl extends GenericService implements Preg
         Integer idJugador = getIdJugadorByUser(auth);
         String recompensaGanada = ""; 
         Boolean ban = perfecta == Constant.SERIE_PERFECTA;
-        if(serieActual > nivel.getSeries() && ban){
-            Integer totalNiveles = this.nivelMapper.getTotalNivelesByIdConcurso(idConcurso);            
-            if(nivelActual<= totalNiveles){
-                //Avanza nivel
+        if(ban){
+            log.info("es perfecta");
+            if(serieActual > nivel.getSeries()){
+                log.info("Serie actual es mayor a las series del nivel");
+                Integer totalNiveles = this.nivelMapper.getTotalNivelesByIdConcurso(idConcurso);            
+                if(nivelActual<= totalNiveles){
+                    //Avanza nivel
+                    log.info("avanza nivel");
+                    jn.setIdConcurso(idConcurso);
+                    jn.setdNivel(nivelActual);
+                    jn.setSerieActual(Constant.SERIE_UNO);
+                    jn.setIdJugador(idJugador);
+                    nivel = this.nivelMapper.getNivelByJugadorNivel(jugadorNivel);
+                    recompensaGanada = this.ganaPremio(jn,nivel);   
+                    this.jugadorNivelMapper.subirNivel(jn);
+                }else{
+                    //Avanza serie
+                    log.info("avanza serie");
+                    jn.setIdJugadorNivel(jugadorNivel);
+                    jn.setIdConcurso(idConcurso);
+                    jn.setdNivel(nivel.getNivel());
+                    jn.setSerieActual(ban ? serieActual : serie);
+                    jn.setIdJugador(idJugador);
+                    this.jugadorNivelMapper.subirSerie(jugadorNivel, serieActual);
+                }
+            }else{
+                //Avanza serie
+                log.info("avanza serie");
+                jn.setIdJugadorNivel(jugadorNivel);
                 jn.setIdConcurso(idConcurso);
-                jn.setdNivel(nivelActual);
-                jn.setSerieActual(Constant.SERIE_UNO);
+                jn.setdNivel(nivel.getNivel());
+                jn.setSerieActual(ban ? serieActual : serie);
                 jn.setIdJugador(idJugador);
-                nivel = this.nivelMapper.getNivelByJugadorNivel(jugadorNivel);
-                recompensaGanada = this.ganaPremio(jn,nivel);   
-                this.jugadorNivelMapper.subirNivel(jn);
+                this.jugadorNivelMapper.subirSerie(jugadorNivel, serieActual);
             }
-        }else{
-            //Avanza serie
-            jn.setIdJugadorNivel(jugadorNivel);
-            jn.setIdConcurso(idConcurso);
-            jn.setdNivel(nivel.getNivel());
-            jn.setSerieActual(ban ? serieActual : serie);
-            jn.setIdJugador(idJugador);
-            this.jugadorNivelMapper.subirSerie(jugadorNivel, serieActual);
         }
         jn.setRecompensaGanada(recompensaGanada);
         return jn;
@@ -116,7 +131,7 @@ public class PreguntaRespuestaServiceImpl extends GenericService implements Preg
             jugadorRecompensa.setObservacion(rcn.getDescripcion());
             this.jugadorRecompensaMapper.insertJugadorRecompensa(jugadorRecompensa);
         }
-        return rcn.getDescripcion() != null ? rcn.getDescripcion() : "";
+        return objetoValido(rcn) ? rcn.getDescripcion() : "";
     }
     
 }
