@@ -53,7 +53,7 @@ public interface JugadorNivelMapper {
     })
     @Select("select " +
                 "n.nivel, n.series, " +
-                "(select distinct count(serie) from serie s where s.id_jugador_nivel = jn.id_jugador_nivel) seriesJugador, " +
+                "coalesce(jn.serie_actual,0) seriesJugador, " +
                 "(select case when count(*) > 0 then true else false end from jugador_recompensa jr " +
                 "inner join recompensa_concurso rc on rc.id_recompensa_concurso = jr.id_recompensa_concurso and rc.id_nivel = n.id_nivel)  tieneRecompensa, " +
                 "coalesce((select sum(rc.cantidad - (select count(*) from jugador_recompensa jr2 where jr2.id_recompensa_concurso = rc.id_recompensa_concurso )) " +
