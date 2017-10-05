@@ -27,9 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.mail.MailException;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -115,7 +113,7 @@ public class UsuarioServiceImpl extends GenericService implements UserDetailsSer
                         throw new ConflictException("error, el correo ya ha sido registrado ");
                     }
                     this.usuarioMapper.insertJugador(personaUsuarioPerfil);
-                    if(personaUsuarioPerfil.isActivo().equals(Boolean.FALSE)){
+                    if(personaUsuarioPerfil.isActivo().equals(Boolean.TRUE)){
                         String parametros = "#?tipo=1"+"&iu="+personaUsuarioPerfil.getIdUsuario();
                         this.mailService.enviaCorreoRegistro(personaUsuarioPerfil.getCorreo(), parametros);
                     }
