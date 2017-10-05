@@ -5,7 +5,6 @@
  */
 package com.lafortuna.delsaber.service;
 
-import com.lafortuna.delsaber.model.Persona;
 import com.lafortuna.delsaber.model.PersonaUsuarioPerfil;
 import com.lafortuna.delsaber.model.Usuario;
 import java.util.List;

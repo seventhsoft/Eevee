@@ -113,7 +113,7 @@ public class UsuarioServiceImpl extends GenericService implements UserDetailsSer
                         throw new ConflictException("error, el correo ya ha sido registrado ");
                     }
                     this.usuarioMapper.insertJugador(personaUsuarioPerfil);
-                    if(personaUsuarioPerfil.isActivo().equals(Boolean.FALSE)){
+                    if(personaUsuarioPerfil.isActivo().equals(Boolean.TRUE)){
                         String parametros = "#?tipo=1"+"&iu="+personaUsuarioPerfil.getIdUsuario();
                         this.mailService.enviaCorreoRegistro(personaUsuarioPerfil.getCorreo(), parametros);
                     }
