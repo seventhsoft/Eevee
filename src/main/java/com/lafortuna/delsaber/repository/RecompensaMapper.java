@@ -6,6 +6,7 @@
 package com.lafortuna.delsaber.repository;
 
 import com.lafortuna.delsaber.model.Recompensa;
+import com.lafortuna.delsaber.model.RecompensaCodigo;
 import com.lafortuna.delsaber.model.RecompensaConcursoNivelDTO;
 import com.lafortuna.delsaber.util.Constant;
 import java.util.List;
@@ -76,4 +77,32 @@ public interface RecompensaMapper {
             "and rc.id_nivel = (select id_nivel from nivel where id_concurso = (select id_concurso from concurso where id_estado_concurso = 1 limit 1) order by nivel desc limit 1) " +
             "and rc.cantidad > (select count(*) from jugador_recompensa where id_recompensa_concurso = rc.id_recompensa_concurso)")
     RecompensaConcursoNivelDTO getPremioMayor();
+    
+    @Results(id = "recompensaPatrocinador", value = {
+        @Result(column = "id_recompensa", property = "idRecompensa", id=true),
+        @Result(column = "tipo_recompensa", property = "tipoRecompensa.descripcion"),
+        @Result(column = "descripcion.", property = "descripcion"),
+        @Result(column = "cantidad", property = "cantidad"),
+        @Result(column = "asignados", property = "asignados"),
+        @Result(column = "vigencia", property = "vigencia")
+    })
+    @Select("select r.id_recompensa, tr.descripcion as tipo_recompensa, r.descripcion, r.cantidad, "
+            + "(select count(rc.id_recompensa) from recompensa_codigo rc where rc.id_recompensa = r.id_recompensa) as asignados, r.vigencia "
+            + "from recompensa r "
+            + "inner join tipo_recompensa tr on r.id_tipo_recompensa = tr.id_tipo_recompensa "
+            + "where r.activo = false "
+            + "AND r.id_patrocinador = #{idPatrocinador} ")
+    List<Recompensa> getRecompensasByPatrocinador(Integer idPatrocinador);
+    
+    @Results(id = "recompensaCodigo", value = {
+        @Result(column = "id_recompensa", property = "idRecompensa"),
+        @Result(column = "codigo", property = "codigo"),
+        @Result(column = "activo", property = "activo"),
+        @Result(column = "fecha_registro", property = "fechaRegistro")
+    })
+    @Select("select id_recompensa, codigo, activo, fecha_registro "
+            + "from recompensa_codigo "
+            + "where id_recompensa = #{idRecompensa} "
+            + "and activo = false ")
+    List<RecompensaCodigo> getCodigoByRecompensa(Integer idRecompensa);
 }

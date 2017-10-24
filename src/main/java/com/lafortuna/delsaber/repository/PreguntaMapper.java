@@ -7,6 +7,7 @@ package com.lafortuna.delsaber.repository;
 
 import com.lafortuna.delsaber.model.PorcionSerieDTO;
 import com.lafortuna.delsaber.model.Pregunta;
+import com.lafortuna.delsaber.model.PreguntaMensaje;
 import com.lafortuna.delsaber.model.Respuesta;
 import java.util.List;
 import org.apache.ibatis.annotations.Insert;
@@ -134,4 +135,18 @@ public interface PreguntaMapper {
     
     @Insert("insert into respuesta(id_pregunta, descripcion, orden, correcta) values(#{idPregunta}, #{descripcion}, #{orden}, #{correcta})") 
     void guardarRespuesta(Respuesta respuesta) throws DataAccessException;
+    
+    @Results(id = "preguntaMensajePatrocinador", value = {
+        @Result(property = "idPreguntaMensaje", column = "id_pregunta_mensaje", id = true), 
+        @Result(property = "pregunta.idPregunta", column = "id_pregunta"),
+        @Result(property = "pregunta.descripcion", column = "descripcion"),
+        @Result(property = "fechaRegistro", column = "fecha_registro")
+    })
+    @Select("select pm.id_pregunta_mensaje, p.id_pregunta, p.descripcion, pm.fecha_registro "
+            + "from pregunta_mensaje pm "
+            + "inner join pregunta p on pm.id_pregunta = p.id_pregunta "
+            + "where pm.activo = false "
+            +"AND p.activo = false "
+            +"AND pm.id_patrocinador = #{idPatrocinador} ")
+    List<PreguntaMensaje>getPreguntaMensajeByPatrocinador(Integer idPatrocinador);
 }

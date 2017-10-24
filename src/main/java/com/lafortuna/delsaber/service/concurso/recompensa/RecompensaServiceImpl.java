@@ -10,6 +10,7 @@ import com.lafortuna.delsaber.model.Concurso;
 import com.lafortuna.delsaber.model.JugadorRecompensa;
 import com.lafortuna.delsaber.model.Persona;
 import com.lafortuna.delsaber.model.Recompensa;
+import com.lafortuna.delsaber.model.RecompensaCodigo;
 import com.lafortuna.delsaber.model.RecompensaConcursoNivelDTO;
 import com.lafortuna.delsaber.repository.ConcursoMapper;
 import com.lafortuna.delsaber.repository.JugadorRecompensaMapper;
@@ -27,6 +28,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -97,5 +99,21 @@ public class RecompensaServiceImpl extends GenericService implements RecompensaS
             /* no gana */
             
         }
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Recompensa> getRecompensasByPatrocinador(Integer idPatrocinador) {
+        List<Recompensa> recompensaList = this.recompensaMapper.getRecompensasByPatrocinador(idPatrocinador);
+        if(listaValida(recompensaList)) {return recompensaList;}	
+        throw new NoContentException(Constant.NO_CONTENT_MESSAGE);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<RecompensaCodigo> getCodigoByRecompensa(Integer idRecompensa) {
+        List<RecompensaCodigo> codigoList = this.recompensaMapper.getCodigoByRecompensa(idRecompensa);
+	if(listaValida(codigoList)) {return codigoList;}
+	throw new NoContentException(Constant.NO_CONTENT_MESSAGE);
     }
 }

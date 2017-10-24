@@ -30,6 +30,7 @@ public class Recompensa implements Serializable {
     private String codigo;
     private String organizacion;
     private List<RecompensaConcurso> recompensaConcursoList;
+    private Integer asignados;
 
     public Recompensa() {
     }
@@ -142,5 +143,13 @@ public class Recompensa implements Serializable {
 
     public String getOrganizacion() {
         return organizacion;
+    }
+
+    public void setAsignados(Integer asignados) {
+        this.asignados = asignados;
+    }
+
+    public Integer getAsignados() {
+        return asignados;
     }
 }

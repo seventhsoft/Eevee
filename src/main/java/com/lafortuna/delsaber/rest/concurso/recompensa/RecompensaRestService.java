@@ -6,6 +6,7 @@
 package com.lafortuna.delsaber.rest.concurso.recompensa;
 
 import com.lafortuna.delsaber.model.Recompensa;
+import com.lafortuna.delsaber.model.RecompensaCodigo;
 import com.lafortuna.delsaber.rest.GenericRestService;
 import com.lafortuna.delsaber.service.concurso.recompensa.RecompensaService;
 import java.util.List;
@@ -36,5 +37,19 @@ public class RecompensaRestService extends GenericRestService{
     @RequestMapping(value = "/jugador", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Recompensa> recompensaByJugador(Authentication auth) throws NotFoundException{
         return this.recompensaService.recompensaByJugador(auth);
+    }
+    
+    @RequestMapping(value = "/patrocinador/{idPatrocinador}",method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Recompensa> getRecompensasByPatrocinador(
+            @PathVariable("idPatrocinador")Integer idPatrocinador)
+    throws NotFoundException{
+        return this.recompensaService.getRecompensasByPatrocinador(idPatrocinador);
+    }  
+    
+    @RequestMapping(value = "/codigo/{idRecompensa}",method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<RecompensaCodigo> getCodigoByRecompensa(
+            @PathVariable("idRecompensa")Integer idRecompensa)
+    throws NotFoundException{
+        return this.recompensaService.getCodigoByRecompensa(idRecompensa);
     }
 }
