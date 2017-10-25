@@ -8,13 +8,17 @@ package com.lafortuna.delsaber.repository;
 import com.lafortuna.delsaber.model.Recompensa;
 import com.lafortuna.delsaber.model.RecompensaCodigo;
 import com.lafortuna.delsaber.model.RecompensaConcursoNivelDTO;
+import com.lafortuna.delsaber.repository.provider.RecompensaCodigoProvider;
 import com.lafortuna.delsaber.util.Constant;
 import java.util.List;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.UpdateProvider;
+import org.springframework.dao.DataAccessException;
 
 /**
  *
@@ -95,14 +99,23 @@ public interface RecompensaMapper {
     List<Recompensa> getRecompensasByPatrocinador(Integer idPatrocinador);
     
     @Results(id = "recompensaCodigo", value = {
+        @Result(column = "id_recompensa_codigo", property = "idRecompensaCodigo"),
         @Result(column = "id_recompensa", property = "idRecompensa"),
         @Result(column = "codigo", property = "codigo"),
         @Result(column = "activo", property = "activo"),
-        @Result(column = "fecha_registro", property = "fechaRegistro")
+        @Result(column = "fecha_registro", property = "fechaRegistro"),
+        @Result(column = "estado", property = "estado")
     })
-    @Select("select id_recompensa, codigo, activo, fecha_registro "
+    @Select("select id_recompensa_codigo, id_recompensa, codigo, activo, estado, fecha_registro "
             + "from recompensa_codigo "
             + "where id_recompensa = #{idRecompensa} "
-            + "and activo = false ")
+            + "and activo = false "
+            + "order by id_recompensa_codigo asc")
     List<RecompensaCodigo> getCodigoByRecompensa(Integer idRecompensa);
+    
+    @Insert("insert into recompensa_codigo(id_recompensa,codigo,activo,estado) values(#{idRecompensa}, #{codigo}, #{activo},#{estado}) ")
+	void saveRecompensaCodigo(RecompensaCodigo recompensaCodigo) throws DataAccessException;
+        
+    @UpdateProvider(type = RecompensaCodigoProvider.class, method = "updateRecompensaCodigo")           
+        void updateRecompensaCodigo(RecompensaCodigo recompensaCo) throws DataAccessException; 
 }

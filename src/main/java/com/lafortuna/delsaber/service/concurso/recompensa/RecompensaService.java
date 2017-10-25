@@ -21,4 +21,6 @@ public interface RecompensaService {
     void premioMayor();
     List<Recompensa> getRecompensasByPatrocinador(Integer idPatrocinador);
     List<RecompensaCodigo> getCodigoByRecompensa(Integer idRecompensa);
+    void saveRecompensaCodigo(RecompensaCodigo recompensaCodigo);
+    void updateRecompensaCodigo(RecompensaCodigo recompensaCo);
 }

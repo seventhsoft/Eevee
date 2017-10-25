@@ -5,6 +5,7 @@
  */
 package com.lafortuna.delsaber.service.concurso.recompensa;
 
+import com.lafortuna.delsaber.exception.InternalServerException;
 import com.lafortuna.delsaber.exception.NoContentException;
 import com.lafortuna.delsaber.model.Concurso;
 import com.lafortuna.delsaber.model.JugadorRecompensa;
@@ -26,6 +27,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -115,5 +117,27 @@ public class RecompensaServiceImpl extends GenericService implements RecompensaS
         List<RecompensaCodigo> codigoList = this.recompensaMapper.getCodigoByRecompensa(idRecompensa);
 	if(listaValida(codigoList)) {return codigoList;}
 	throw new NoContentException(Constant.NO_CONTENT_MESSAGE);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void saveRecompensaCodigo(RecompensaCodigo recompensaCodigo) {
+        try{
+            this.recompensaMapper.saveRecompensaCodigo(recompensaCodigo);
+        }catch(DataAccessException e){
+            log.error(this.getClass().getName() + "saveRecompensaCodigo" + e);
+            throw new InternalServerException(": Error al insertar recompensa codigo");
+        }
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void updateRecompensaCodigo(RecompensaCodigo recompensaCo) {
+        try{
+            this.recompensaMapper.updateRecompensaCodigo(recompensaCo);
+        }catch(DataAccessException e){
+            this.log.error(this.getClass().getName() + ":updateJugadorActivo ex:" + e);
+            throw new InternalServerException(": Error al modificar recompensa codigo");
+        }    
     }
 }

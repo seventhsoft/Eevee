@@ -13,10 +13,26 @@ import java.util.Date;
  */
 public class RecompensaCodigo {
     
+    private Integer idRecompensaCodigo;
     private Integer idRecompensa;
     private String codigo;
     private Boolean activo;
     private Date fechaRegistro;
+    private Integer estado;
+
+    /**
+     * @return the idRecompensaCodigo
+     */
+    public Integer getIdRecompensaCodigo() {
+        return idRecompensaCodigo;
+    }
+
+    /**
+     * @param idRecompensaCodigo the idRecompensaCodigo to set
+     */
+    public void setIdRecompensaCodigo(Integer idRecompensaCodigo) {
+        this.idRecompensaCodigo = idRecompensaCodigo;
+    }
 
     /**
      * @return the idRecompensa
@@ -72,5 +88,19 @@ public class RecompensaCodigo {
      */
     public void setFechaRegistro(Date fechaRegistro) {
         this.fechaRegistro = fechaRegistro;
+    }
+
+    /**
+     * @return the estado
+     */
+    public Integer getEstado() {
+        return estado;
+    }
+
+    /**
+     * @param estado the estado to set
+     */
+    public void setEstado(Integer estado) {
+        this.estado = estado;
     }
 }

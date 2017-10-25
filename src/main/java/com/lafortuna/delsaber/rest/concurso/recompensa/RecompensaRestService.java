@@ -12,11 +12,14 @@ import com.lafortuna.delsaber.service.concurso.recompensa.RecompensaService;
 import java.util.List;
 import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -51,5 +54,16 @@ public class RecompensaRestService extends GenericRestService{
             @PathVariable("idRecompensa")Integer idRecompensa)
     throws NotFoundException{
         return this.recompensaService.getCodigoByRecompensa(idRecompensa);
+    }
+    
+    @RequestMapping(value = "/codigo",method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.CREATED)
+    public void saveRecompensaCodigo(@RequestBody RecompensaCodigo recompensaCodigo){
+        this.recompensaService.saveRecompensaCodigo(recompensaCodigo);
+    }
+    
+    @RequestMapping(value = "/codigo",method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    public void updateUsuarioPersona(@RequestBody RecompensaCodigo RecompensaCo){
+        this.recompensaService.updateRecompensaCodigo(RecompensaCo);
     }
 }
