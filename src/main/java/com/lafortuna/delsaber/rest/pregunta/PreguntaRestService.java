@@ -5,9 +5,14 @@
  */
 package com.lafortuna.delsaber.rest.pregunta;
 
+import com.lafortuna.delsaber.model.PreguntaMensaje;
 import com.lafortuna.delsaber.service.pregunta.PreguntaService;
+import java.util.List;
+import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,4 +37,10 @@ public class PreguntaRestService {
         this.preguntaService.cargaPreguntas(file);
     }
     
+    @RequestMapping(value = "/mensaje/{idPatrocinador}",method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<PreguntaMensaje> getPreguntaMensajeByPatrocinador(
+            @PathVariable("idPatrocinador")Integer idPatrocinador)
+    throws NotFoundException{
+        return this.preguntaService.getPreguntaMensajeByPatrocinador(idPatrocinador);
+    }   
 }

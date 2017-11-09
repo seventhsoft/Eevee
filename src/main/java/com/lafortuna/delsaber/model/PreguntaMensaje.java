@@ -5,6 +5,7 @@
  */
 package com.lafortuna.delsaber.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -12,7 +13,7 @@ import java.util.Date;
  *
  * @author Cliente
  */
-
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class PreguntaMensaje implements Serializable {
 
     private static final long serialVersionUID = 1L;

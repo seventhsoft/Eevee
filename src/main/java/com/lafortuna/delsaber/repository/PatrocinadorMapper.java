@@ -47,11 +47,10 @@ public interface PatrocinadorMapper {
             + "pe.correo, "
             + "pe.activo, "
             + "pe.fecha_registro, "
-            + "count( r.cantidad) as recompensa, "
+            + "(select count(r.cantidad) from recompensa r where r.id_patrocinador = p.id_patrocinador) as recompensa,"
             + "(select count(id_pregunta) from pregunta_mensaje where id_patrocinador = p.id_patrocinador) as pregunta "
             + "from patrocinador p "
             + "inner join persona pe on p.id_persona = pe.id_persona "
-            + "inner join recompensa r on p.id_patrocinador = r.id_patrocinador "
             + "where pe.activo = false "
             +"group by p.id_patrocinador,pe.nombre,pe.apaterno, pe.organizacion,pe.telefono,pe.correo,pe.activo,pe.fecha_registro "
             +"order by p.id_patrocinador asc")

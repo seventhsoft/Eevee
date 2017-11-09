@@ -6,6 +6,7 @@
 package com.lafortuna.delsaber.service.concurso.recompensa;
 
 import com.lafortuna.delsaber.model.Recompensa;
+import com.lafortuna.delsaber.model.RecompensaCodigo;
 import java.util.List;
 import org.springframework.security.core.Authentication;
 
@@ -18,4 +19,8 @@ public interface RecompensaService {
     List<Recompensa> recompensaByConcurso(Integer idConcurso);
     List<Recompensa> recompensaByJugador(Authentication auth);
     void premioMayor();
+    List<Recompensa> getRecompensasByPatrocinador(Integer idPatrocinador);
+    List<RecompensaCodigo> getCodigoByRecompensa(Integer idRecompensa);
+    void saveRecompensaCodigo(RecompensaCodigo recompensaCodigo);
+    void updateRecompensaCodigo(RecompensaCodigo recompensaCo);
 }

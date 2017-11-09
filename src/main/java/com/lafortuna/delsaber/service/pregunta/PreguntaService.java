@@ -5,6 +5,8 @@
  */
 package com.lafortuna.delsaber.service.pregunta;
 
+import com.lafortuna.delsaber.model.PreguntaMensaje;
+import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -13,5 +15,6 @@ import org.springframework.web.multipart.MultipartFile;
  */
 public interface PreguntaService {
     void cargaPreguntas(MultipartFile file);
+    List<PreguntaMensaje>getPreguntaMensajeByPatrocinador(Integer idPatrocinador);
     
 }

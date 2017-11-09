@@ -6,12 +6,16 @@
 package com.lafortuna.delsaber.service.pregunta;
 
 import com.lafortuna.delsaber.exception.InternalServerException;
+import com.lafortuna.delsaber.exception.NoContentException;
 import com.lafortuna.delsaber.model.Pregunta;
+import com.lafortuna.delsaber.model.PreguntaMensaje;
 import com.lafortuna.delsaber.model.Respuesta;
 import com.lafortuna.delsaber.repository.PreguntaMapper;
 import com.lafortuna.delsaber.service.GenericService;
+import com.lafortuna.delsaber.util.Constant;
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.List;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -100,5 +104,13 @@ public class PreguntaServiceImpl extends GenericService implements PreguntaServi
         } else {        
             return cell.getStringCellValue();
         }        
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<PreguntaMensaje> getPreguntaMensajeByPatrocinador(Integer idPatrocinador) {
+        List<PreguntaMensaje> preguntaMensajeList = this.preguntaMapper.getPreguntaMensajeByPatrocinador(idPatrocinador);
+        if(listaValida(preguntaMensajeList)) {return preguntaMensajeList;}
+        throw new NoContentException(Constant.NO_CONTENT_MESSAGE);
     }
 }
