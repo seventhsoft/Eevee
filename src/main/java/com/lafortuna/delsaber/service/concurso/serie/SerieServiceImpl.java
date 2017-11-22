@@ -114,11 +114,17 @@ public class SerieServiceImpl extends GenericService implements SerieService {
                 } else {
                     while(getTotalPorcion(proporcionPreguntas) != Constant.TOTAL_PREGUNTAS_POR_SERIE) {
                        computeLowerPortion(facil, media, dificl, proporcionPreguntas);
+                       facil = proporcionPreguntas.get(0).getPreguntas();
+                       media = proporcionPreguntas.get(1).getPreguntas();
+                       dificl = proporcionPreguntas.get(2).getPreguntas();
                     }
                 }
             } else if(totalPorcion > Constant.TOTAL_PREGUNTAS_POR_SERIE) {
                 while(getTotalPorcion(proporcionPreguntas) != Constant.TOTAL_PREGUNTAS_POR_SERIE) {
                     computeBiggerPortion(facil, media, dificl, proporcionPreguntas);
+                    facil = proporcionPreguntas.get(0).getPreguntas();
+                    media = proporcionPreguntas.get(1).getPreguntas();
+                    dificl = proporcionPreguntas.get(2).getPreguntas();
                 }
             } 
             facil = proporcionPreguntas.get(0).getPreguntas();
@@ -134,15 +140,17 @@ public class SerieServiceImpl extends GenericService implements SerieService {
         Integer dMedia = proporcionPreguntas.get(1).getDisponibles().intValue();
         Integer dDificil = proporcionPreguntas.get(2).getDisponibles().intValue();
         
-        if(dFacil > dMedia && dFacil > dDificil) {
+        if(dFacil >= dMedia && dFacil >= dDificil) {
             proporcionPreguntas.get(0).setPreguntas(proporcionPreguntas.get(0).getPreguntas()+1);
-        }
-        if(dMedia > dFacil && dMedia > dDificil) {
-            proporcionPreguntas.get(1).setPreguntas(proporcionPreguntas.get(1).getPreguntas()+1);
-        }
-        if(dDificil > dFacil && dDificil > dMedia) {
-            proporcionPreguntas.get(2).setPreguntas(proporcionPreguntas.get(2).getPreguntas()+1);
-        }
+        } else {
+            if(dMedia >= dFacil && dMedia >= dDificil) {
+                proporcionPreguntas.get(1).setPreguntas(proporcionPreguntas.get(1).getPreguntas()+1);
+            } else {
+                if(dDificil >= dFacil && dDificil >= dMedia) {
+                    proporcionPreguntas.get(2).setPreguntas(proporcionPreguntas.get(2).getPreguntas()+1);
+                }
+            }
+        }                
     }
     
     public void computePortionEqual(long facil, long media, long dificl, List<PorcionSerieDTO> proporcionPreguntas) {
