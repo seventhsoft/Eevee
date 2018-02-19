@@ -65,13 +65,18 @@ public class UsuarioServiceImpl extends GenericService implements UserDetailsSer
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = new User();
         user.setUsuario(usuarioMapper.getUsuarioByUserName(username));
-        List<Perfil> roles = perfilMapper.getPerfilByIdPersona(user.getUsuario().getPersona().getIdPersona());
+        if(objetoValido(user.getUsuario())) {
+            List<Perfil> roles = perfilMapper.getPerfilByIdPersona(user.getUsuario().getPersona().getIdPersona());
         roles.stream().forEach(p -> {
             Role r =  new Role();
             r.setName(p.getTarjet());
             user.getAuthorities().add(r);
         });
         return user;
+        } else {
+            throw new UsernameNotFoundException("usuario no registrado");
+        }
+        
     }
     
     @Override

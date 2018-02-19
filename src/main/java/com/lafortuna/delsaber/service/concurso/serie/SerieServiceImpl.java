@@ -14,6 +14,7 @@ import com.lafortuna.delsaber.repository.NivelMapper;
 import com.lafortuna.delsaber.repository.PreguntaMapper;
 import com.lafortuna.delsaber.service.GenericService;
 import com.lafortuna.delsaber.util.Constant;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,8 +47,13 @@ public class SerieServiceImpl extends GenericService implements SerieService {
     @Transactional(readOnly = true)
     public Map<String, Object> getSerieByJugador(Authentication auth, Integer idJugadorNivel) {
         List<PorcionSerieDTO> proporcionPreguntas = this.preguntaMapper.getProporcionPreguntas(getIdJugadorByUser(auth));
-        long restantes = computePortion(proporcionPreguntas);    
-        List<Pregunta> preguntas = getPreguntas(idJugadorNivel, proporcionPreguntas);
+        long restantes = computePortion(proporcionPreguntas); 
+        List<Pregunta> preguntas = new ArrayList<>();
+        if(getTotalPorcion(proporcionPreguntas) > 0L) {
+            preguntas = getPreguntas(idJugadorNivel, proporcionPreguntas);
+        } else {
+            restantes = 6;
+        }
         setPreguntasRestantes(preguntas, restantes);
         setPreguntas(preguntas, idJugadorNivel);
 
@@ -81,7 +87,7 @@ public class SerieServiceImpl extends GenericService implements SerieService {
     
     public void setPreguntas(List<Pregunta> preguntas, Integer idJugadorNivel) {
         for(Pregunta pregunta: preguntas) {
-            pregunta.setRespuestaList(this.preguntaMapper.getRespuestasPorIdPregunta(pregunta.getIdPregunta(), idJugadorNivel));
+            pregunta.setRespuestaList(this.preguntaMapper.getRespuestasRestantesPorIdPregunta(pregunta.getIdPregunta(), idJugadorNivel));
         }
     }
     
@@ -110,7 +116,7 @@ public class SerieServiceImpl extends GenericService implements SerieService {
         if(totalPorcion != Constant.TOTAL_PREGUNTAS_POR_SERIE) {            
             if(totalPorcion < Constant.TOTAL_PREGUNTAS_POR_SERIE) { 
                 if(getAvailableQuestions(proporcionPreguntas) < Constant.TOTAL_PREGUNTAS_POR_SERIE) {
-                    restantes = getAvailableQuestions(proporcionPreguntas) - Constant.TOTAL_PREGUNTAS_POR_SERIE;
+                    restantes = Constant.TOTAL_PREGUNTAS_POR_SERIE - getAvailableQuestions(proporcionPreguntas);
                 } else {
                     while(getTotalPorcion(proporcionPreguntas) != Constant.TOTAL_PREGUNTAS_POR_SERIE) {
                        computeLowerPortion(facil, media, dificl, proporcionPreguntas);
@@ -177,7 +183,8 @@ public class SerieServiceImpl extends GenericService implements SerieService {
     }
     
     public long getTotalPorcion(List<PorcionSerieDTO> proporcionPreguntas) {
-        return proporcionPreguntas.get(0).getPreguntas() + proporcionPreguntas.get(1).getPreguntas() + proporcionPreguntas.get(2).getPreguntas();
+        long totalPorcion = proporcionPreguntas.get(0).getPreguntas() + proporcionPreguntas.get(1).getPreguntas() + proporcionPreguntas.get(2).getPreguntas();
+        return  totalPorcion < 0L ? 0 : totalPorcion;
     }
     
     public Integer getAvailableQuestions(List<PorcionSerieDTO> proporcionPreguntas) {

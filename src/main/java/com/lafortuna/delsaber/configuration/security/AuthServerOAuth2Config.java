@@ -45,19 +45,19 @@ public class AuthServerOAuth2Config extends AuthorizationServerConfigurerAdapter
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.jdbc(dataSource);
-              /*  .withClient("webClient")
+   /*     .withClient("webClient")
                 .secret("secret")
                 .authorizedGrantTypes("password","authorization_code", "refresh_token")
                 .scopes("read", "write")
-                .accessTokenValiditySeconds(21600)
-                .refreshTokenValiditySeconds(21600)
+                .accessTokenValiditySeconds(2592000)
+                .refreshTokenValiditySeconds(5184000)
                 .and()
                 .withClient("mobileClient")
                 .secret("secretMobile")
                 .authorizedGrantTypes("password","authorization_code", "refresh_token")
                 .scopes("read", "write")
-                .accessTokenValiditySeconds(21600)
-                .refreshTokenValiditySeconds(21600); */
+                .accessTokenValiditySeconds(2592000)
+                .refreshTokenValiditySeconds(5184000); */
                 
     }
     

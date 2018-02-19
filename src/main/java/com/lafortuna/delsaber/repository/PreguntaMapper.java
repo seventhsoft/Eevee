@@ -101,6 +101,17 @@ public interface PreguntaMapper {
     List<Respuesta> getRespuestasPorIdPregunta(@Param("idPregunta") int idPregunta, 
                                                @Param("idJugadorNivel") Integer idJugadorNivel);
     
+        @Results(id = "respuestasPreguntaRestante", value = {
+        @Result(column = "id_respuesta", property = "idRespuesta"),
+        @Result(column = "descripcion", property = "descripcion"),
+        @Result(column = "correcta", property = "correcta") 
+    })
+    @Select(" select  r.id_respuesta, r.descripcion, r.correcta " +
+    "from respuesta r  " +
+    "where r.id_pregunta = #{idPregunta} and r.activo = false order by random() ")
+    List<Respuesta> getRespuestasRestantesPorIdPregunta(@Param("idPregunta") int idPregunta, 
+                                               @Param("idJugadorNivel") Integer idJugadorNivel);
+    
     @Results(id = "preguntaMensaje", value = {
         @Result(column = "id_pregunta", property = "idPregunta"),
         @Result(column = "descripcion", property = "descripcion"),
