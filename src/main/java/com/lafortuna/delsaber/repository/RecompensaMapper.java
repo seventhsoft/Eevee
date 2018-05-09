@@ -85,7 +85,7 @@ public interface RecompensaMapper {
     @Results(id = "recompensaPatrocinador", value = {
         @Result(column = "id_recompensa", property = "idRecompensa", id=true),
         @Result(column = "tipo_recompensa", property = "tipoRecompensa.descripcion"),
-        @Result(column = "descripcion.", property = "descripcion"),
+        @Result(column = "descripcion", property = "descripcion"),
         @Result(column = "cantidad", property = "cantidad"),
         @Result(column = "asignados", property = "asignados"),
         @Result(column = "vigencia", property = "vigencia")
