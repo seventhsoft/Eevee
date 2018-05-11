@@ -5,7 +5,9 @@
  */
 package com.lafortuna.delsaber.service.concurso;
 
+import com.lafortuna.delsaber.model.ConcursoDTO;
 import com.lafortuna.delsaber.model.ConcursoParticipanteDTO;
+import com.lafortuna.delsaber.model.Nivel;
 import java.util.List;
 
 /**
@@ -15,4 +17,8 @@ import java.util.List;
 public interface ConcursoService {
     
     List<ConcursoParticipanteDTO> getAllConcurso();
+    void insertConcurso(ConcursoDTO concursoDTO);
+    void updateConcurso(ConcursoDTO concursoDTO);
+    void insertNivel(Nivel nivel);
+    void updateNivel(Nivel nivel);
 }

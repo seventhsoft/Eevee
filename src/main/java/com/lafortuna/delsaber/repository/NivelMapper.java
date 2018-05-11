@@ -6,11 +6,15 @@
 package com.lafortuna.delsaber.repository;
 
 import com.lafortuna.delsaber.model.Nivel;
+import com.lafortuna.delsaber.repository.provider.NivelProvider;
 import java.util.List;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.UpdateProvider;
+import org.springframework.dao.DataAccessException;
 
 /**
  *
@@ -49,4 +53,11 @@ public interface NivelMapper {
     "select count(*) from nivel where id_concurso = #{idConcurso}"
     )
     public Integer getTotalNivelesByIdConcurso(Integer idConcurso);
+    
+    @Insert("insert into nivel (id_concurso,descripcion,series,tiempo_pregunta,activo,fecha_registro,nivel)values( "
+            +"#{idConcurso}, #{descripcion}, #{series}, #{tiempoPregunta}, #{activo}, #{fechaRegistro}, #{nivel}) ")
+	void insertNivel(Nivel nivel) throws DataAccessException;
+        
+    @UpdateProvider(type = NivelProvider.class, method = "updateNivel")
+        void updateNivel(Nivel nivel) throws DataAccessException; 
 }

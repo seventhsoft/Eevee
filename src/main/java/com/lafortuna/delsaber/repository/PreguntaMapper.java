@@ -9,6 +9,9 @@ import com.lafortuna.delsaber.model.PorcionSerieDTO;
 import com.lafortuna.delsaber.model.Pregunta;
 import com.lafortuna.delsaber.model.PreguntaMensaje;
 import com.lafortuna.delsaber.model.Respuesta;
+import com.lafortuna.delsaber.model.RespuestaDTO;
+import com.lafortuna.delsaber.repository.provider.PreguntaProvider;
+import com.lafortuna.delsaber.repository.provider.RespuestaProvider;
 import java.util.List;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.MapKey;
@@ -18,6 +21,8 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.SelectProvider;
+import org.apache.ibatis.annotations.UpdateProvider;
 import org.springframework.dao.DataAccessException;
 
 /**
@@ -26,7 +31,7 @@ import org.springframework.dao.DataAccessException;
  */
 @Mapper
 public interface PreguntaMapper {
-    
+   
     @Select("select " +
     "    case when d.id_dificultad = 1 then round(((count(*) - (select count(*) from pregunta p2 " +
     "                                                        inner join respuesta r on r.id_pregunta = p2.id_pregunta " +
@@ -160,4 +165,47 @@ public interface PreguntaMapper {
             +"AND p.activo = false "
             +"AND pm.id_patrocinador = #{idPatrocinador} ")
     List<PreguntaMensaje>getPreguntaMensajeByPatrocinador(Integer idPatrocinador);
+    
+    @Results(id = "preguntaByDificultadDescripcion", value = {
+        @Result(property = "idPregunta",             column = "id_pregunta", id = true),
+        @Result(property = "idDificultad",           column = "id_dificultad"),
+        @Result(property = "descripcion",            column = "descripcion"),
+        @Result(property = "ruta",                   column = "ruta"),
+        @Result(property = "clase",                  column = "clase"),
+        @Result(property = "activo",                 column = "activo"),
+        @Result(property = "fechaRegistro",          column = "fecha_registro")
+    })
+    @SelectProvider(type = PreguntaProvider.class , method = "selectPreguntaProvider")
+    List<Pregunta> getPreguntaByDificultadDescripcion(Pregunta pregunta);
+    
+    @Results(id = "preguntaMensajeByidPregunta", value = {
+        @Result(property = "idPreguntaMensaje",             column = "id_pregunta_mensaje", id = true), 
+        @Result(property = "pregunta.idPregunta",           column = "id_pregunta"),
+        @Result(property = "patrocinador.idPatrocinador",   column = "id_patrocinador"),
+        @Result(property = "concurso.idConcurso",           column = "id_concurso"),
+        @Result(property = "activo",                        column = "activo"),
+        @Result(property = "fechaRegistro",                 column = "fecha_registro")
+    })
+    @Select("select id_pregunta_mensaje, id_pregunta, id_patrocinador, id_concurso, activo, fecha_registro "
+            + "from pregunta_mensaje "
+            + "where id_pregunta_mensaje = #{idPreguntaMensaje} "
+            + "and activo = false ")
+    List<PreguntaMensaje>getPreguntaMensajeByIdPregunta(Integer idPreguntaMensaje);
+    
+    @Results(id = "respuestas", value = {
+        @Result(property = "idRespuesta",           column = "id_respuesta"), 
+        @Result(property = "idPregunta",            column = "id_pregunta"),
+        @Result(property = "descripcion",           column = "descripcion"),
+        @Result(property = "orden",                 column = "orden"),
+        @Result(property = "correcta",              column = "correcta"),
+        @Result(property = "activo",                column = "activo"),
+        @Result(property = "fechaRegistro",         column = "fecha_registro")
+    })
+    @Select("select r.id_respuesta,r.id_pregunta,r.descripcion,r.orden,r.correcta,r.activo,r.fecha_registro "
+           +"from pregunta p inner join respuesta r on p.id_pregunta = r.id_pregunta "
+           +"where p.id_pregunta = #{idPregunta} and p.activo = false")
+    List<Respuesta>getRespuestasByPregunta(Integer idPregunta);
+    
+    @UpdateProvider(type = RespuestaProvider.class, method = "updateRespuesta")
+        void updateRespuesta(RespuestaDTO respuestaDTO) throws DataAccessException; 
 }

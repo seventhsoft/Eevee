@@ -5,7 +5,10 @@
  */
 package com.lafortuna.delsaber.service.pregunta;
 
+import com.lafortuna.delsaber.model.Pregunta;
 import com.lafortuna.delsaber.model.PreguntaMensaje;
+import com.lafortuna.delsaber.model.Respuesta;
+import com.lafortuna.delsaber.model.RespuestaDTO;
 import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,5 +19,9 @@ import org.springframework.web.multipart.MultipartFile;
 public interface PreguntaService {
     void cargaPreguntas(MultipartFile file);
     List<PreguntaMensaje>getPreguntaMensajeByPatrocinador(Integer idPatrocinador);
+    List<Pregunta> getPreguntaByDificultadDescripcion(Pregunta pregunta);
+    List<PreguntaMensaje>getPreguntaMensajeByIdPregunta(Integer idPreguntaMensaje);
+    List<Respuesta>getRespuestasByPregunta(Integer idPregunta);
+    void updateRespuesta(RespuestaDTO respuestaDTO);
     
 }

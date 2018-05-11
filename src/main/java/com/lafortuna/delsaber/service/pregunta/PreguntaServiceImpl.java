@@ -10,6 +10,7 @@ import com.lafortuna.delsaber.exception.NoContentException;
 import com.lafortuna.delsaber.model.Pregunta;
 import com.lafortuna.delsaber.model.PreguntaMensaje;
 import com.lafortuna.delsaber.model.Respuesta;
+import com.lafortuna.delsaber.model.RespuestaDTO;
 import com.lafortuna.delsaber.repository.PreguntaMapper;
 import com.lafortuna.delsaber.service.GenericService;
 import com.lafortuna.delsaber.util.Constant;
@@ -112,5 +113,40 @@ public class PreguntaServiceImpl extends GenericService implements PreguntaServi
         List<PreguntaMensaje> preguntaMensajeList = this.preguntaMapper.getPreguntaMensajeByPatrocinador(idPatrocinador);
         if(listaValida(preguntaMensajeList)) {return preguntaMensajeList;}
         throw new NoContentException(Constant.NO_CONTENT_MESSAGE);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Pregunta> getPreguntaByDificultadDescripcion(Pregunta pregunta) {
+        List<Pregunta> preguntaList = this.preguntaMapper.getPreguntaByDificultadDescripcion(pregunta);
+        if(listaValida(preguntaList)) {return preguntaList;}
+        throw new NoContentException(Constant.NO_CONTENT_MESSAGE);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<PreguntaMensaje> getPreguntaMensajeByIdPregunta(Integer idPreguntaMensaje) {
+        List<PreguntaMensaje> preguntaMensajeList = this.preguntaMapper.getPreguntaMensajeByIdPregunta(idPreguntaMensaje);
+        if(listaValida(preguntaMensajeList)) {return preguntaMensajeList;}
+        throw new NoContentException(Constant.NO_CONTENT_MESSAGE);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Respuesta> getRespuestasByPregunta(Integer idPregunta) {
+        List<Respuesta> respuestaList = this.preguntaMapper.getRespuestasByPregunta(idPregunta);
+        if(objetoValido(respuestaList)) {return respuestaList;}
+        throw new NoContentException(Constant.NO_CONTENT_MESSAGE);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void updateRespuesta(RespuestaDTO respuestaDTO) {
+        try{
+            this.preguntaMapper.updateRespuesta(respuestaDTO);
+        }catch(DataAccessException e){
+            this.log.error(this.getClass().getName() + "updateRespuesta :" + e);
+            throw new InternalServerException("Error al modificar respuesta");
+        }
     }
 }

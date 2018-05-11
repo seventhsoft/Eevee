@@ -6,13 +6,18 @@
 package com.lafortuna.delsaber.repository;
 
 import com.lafortuna.delsaber.model.Concurso;
+import com.lafortuna.delsaber.model.ConcursoDTO;
 import com.lafortuna.delsaber.model.ConcursoParticipanteDTO;
+import com.lafortuna.delsaber.repository.provider.ConcursoProvider;
 import java.util.List;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.UpdateProvider;
+import org.springframework.dao.DataAccessException;
 
 /**
  *
@@ -81,4 +86,11 @@ public interface ConcursoMapper {
             + "group by c.id_concurso,sc.id_estado_concurso "
             + "order by c.id_concurso asc")
     List<ConcursoParticipanteDTO> getAllConcurso();
+    
+    @Insert("insert into concurso (id_estado_concurso,descripcion,fecha_inicio,fecha_fin,activo,fecha_registro) values( "
+            + "#{idEstadoConcurso}, #{descripcion}, #{fechaInicio}, #{fechaFin}, #{activo}, #{fechaRegistro}) ")
+	void insertConcurso(ConcursoDTO concursoDTO) throws DataAccessException;
+        
+    @UpdateProvider(type = ConcursoProvider.class, method = "updateConcurso")
+        void updateConcurso(ConcursoDTO concursoDTO) throws DataAccessException;    
 }
