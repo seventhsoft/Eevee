@@ -6,6 +6,7 @@
 package com.lafortuna.delsaber.repository;
 
 import com.lafortuna.delsaber.model.Nivel;
+import com.lafortuna.delsaber.model.NivelDTO;
 import com.lafortuna.delsaber.repository.provider.NivelProvider;
 import java.util.List;
 import org.apache.ibatis.annotations.Insert;
@@ -60,4 +61,19 @@ public interface NivelMapper {
         
     @UpdateProvider(type = NivelProvider.class, method = "updateNivel")
         void updateNivel(Nivel nivel) throws DataAccessException; 
+        
+    @Results(id = "nivelConcurso", value = {
+        @Result(column = "id_nivel",            property = "idNivel", id = true),
+        @Result(column = "id_concurso",         property = "idConcurso"),
+        @Result(column = "descripcion",         property = "descripcion"),
+        @Result(column = "series",              property = "series"),
+        @Result(column = "tiempo_pregunta",     property = "tiempoPregunta"),
+        @Result(column = "activo",              property = "activo"),
+        @Result(column = "fecha_registro",      property = "fechaRegistro"),
+        @Result(column = "nivel",               property = "nivel")
+    })
+    @Select("select n.id_nivel, n.id_concurso, n.descripcion, n.series, n.tiempo_pregunta, n.activo, n.fecha_registro, n.nivel "
+            +"from nivel n inner join concurso c on c.id_concurso = n.id_concurso "
+            +"where n.id_concurso = #{idConcurso} and n.activo = false ")
+    List<NivelDTO> getNivelesByIdConcurso(Integer idConcurso);    
 }

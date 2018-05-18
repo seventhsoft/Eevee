@@ -23,5 +23,6 @@ public interface PreguntaService {
     List<PreguntaMensaje>getPreguntaMensajeByIdPregunta(Integer idPreguntaMensaje);
     List<Respuesta>getRespuestasByPregunta(Integer idPregunta);
     void updateRespuesta(RespuestaDTO respuestaDTO);
-    
+    void insertPreguntaMensaje(PreguntaMensaje preguntaMensaje);
+    void updatePreguntaMensaje(PreguntaMensaje preguntaMensaje);
 }

@@ -18,7 +18,10 @@ public class PreguntaMensaje implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private Integer idPreguntaMensaje;
-    private boolean activo;
+    private Integer idPregunta;
+    private Integer idPatrocinador;
+    private Integer idConcurso;
+    private Boolean activo;
     private Date fechaRegistro;
     private Concurso concurso;
     private Patrocinador patrocinador;
@@ -45,11 +48,11 @@ public class PreguntaMensaje implements Serializable {
         this.idPreguntaMensaje = idPreguntaMensaje;
     }
 
-    public boolean getActivo() {
+    public Boolean getActivo() {
         return activo;
     }
 
-    public void setActivo(boolean activo) {
+    public void setActivo(Boolean activo) {
         this.activo = activo;
     }
 
@@ -83,5 +86,29 @@ public class PreguntaMensaje implements Serializable {
 
     public void setPregunta(Pregunta pregunta) {
         this.pregunta = pregunta;
+    }
+
+    public void setIdPregunta(Integer idPregunta) {
+        this.idPregunta = idPregunta;
+    }
+
+    public Integer getIdPregunta() {
+        return idPregunta;
+    }
+
+    public void setIdPatrocinador(Integer idPatrocinador) {
+        this.idPatrocinador = idPatrocinador;
+    }
+
+    public Integer getIdPatrocinador() {
+        return idPatrocinador;
+    }
+
+    public void setIdConcurso(Integer idConcurso) {
+        this.idConcurso = idConcurso;
+    }
+
+    public Integer getIdConcurso() {
+        return idConcurso;
     }
 }

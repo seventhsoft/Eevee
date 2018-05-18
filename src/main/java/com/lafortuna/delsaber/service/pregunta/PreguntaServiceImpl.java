@@ -149,4 +149,26 @@ public class PreguntaServiceImpl extends GenericService implements PreguntaServi
             throw new InternalServerException("Error al modificar respuesta");
         }
     }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void insertPreguntaMensaje(PreguntaMensaje preguntaMensaje) {
+        try{
+            this.preguntaMapper.insertPreguntaMensaje(preguntaMensaje);
+        }catch(DataAccessException e){
+            this.log.error(this.getClass().getName() + "insertPreguntaMensaje :" + e);
+            throw new InternalServerException("Error al insertar Pregunta Mensaje");
+        }
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void updatePreguntaMensaje(PreguntaMensaje preguntaMensaje) {
+        try{
+            this.preguntaMapper.updatePreguntaMensaje(preguntaMensaje);
+        }catch(DataAccessException e){
+            this.log.error(this.getClass().getName() + "updatePreguntaMensaje :" + e);
+            throw new InternalServerException("Error al Modificar Pregunta Mensaje");
+        }
+    }
 }

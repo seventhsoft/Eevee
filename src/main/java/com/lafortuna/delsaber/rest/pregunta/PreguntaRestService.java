@@ -80,4 +80,16 @@ public class PreguntaRestService {
     public void updateRespuesta(@RequestBody RespuestaDTO respuestaDTO){
         this.preguntaService.updateRespuesta(respuestaDTO);
     }
+    
+    @RequestMapping(value = "/mensaje",method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.CREATED)
+    public void insertPreguntaMensaje(@RequestBody PreguntaMensaje preguntaMensaje){
+        this.preguntaService.insertPreguntaMensaje(preguntaMensaje);
+    }
+    
+    @RequestMapping(value = "/mensaje",method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public void updatePreguntaMensaje(@RequestBody PreguntaMensaje preguntaMensaje){
+        this.preguntaService.updatePreguntaMensaje(preguntaMensaje);
+    }
 }

@@ -8,6 +8,7 @@ package com.lafortuna.delsaber.rest.concurso;
 import com.lafortuna.delsaber.model.ConcursoDTO;
 import com.lafortuna.delsaber.model.ConcursoParticipanteDTO;
 import com.lafortuna.delsaber.model.Nivel;
+import com.lafortuna.delsaber.model.NivelDTO;
 import com.lafortuna.delsaber.service.concurso.ConcursoService;
 import java.util.List;
 import org.apache.ibatis.javassist.NotFoundException;
@@ -16,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -63,5 +65,12 @@ public class ConcursoRestService {
     @ResponseStatus(HttpStatus.OK)
     public void updateNivel(@RequestBody Nivel nivel){
         this.concursoService.updateNivel(nivel);
+    }
+    
+    @RequestMapping(value = "/nivel/{idConcurso}",method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<NivelDTO> getNivelesByIdConcurso(
+                @PathVariable("idConcurso")Integer idConcurso) 
+    throws NotFoundException{
+        return this.concursoService.getNivelesByIdConcurso(idConcurso);
     }
 }

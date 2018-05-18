@@ -207,5 +207,12 @@ public interface PreguntaMapper {
     List<Respuesta>getRespuestasByPregunta(Integer idPregunta);
     
     @UpdateProvider(type = RespuestaProvider.class, method = "updateRespuesta")
-        void updateRespuesta(RespuestaDTO respuestaDTO) throws DataAccessException; 
+        void updateRespuesta(RespuestaDTO respuestaDTO) throws DataAccessException;
+        
+    @Insert("insert into pregunta_mensaje (id_pregunta, id_patrocinador, id_concurso, activo, fecha_registro)values( "
+            +"#{idPregunta}, #{idPatrocinador}, #{idConcurso}, #{activo}, now()) ")
+	void insertPreguntaMensaje(PreguntaMensaje preguntaMensaje) throws DataAccessException;
+        
+    @UpdateProvider(type = PreguntaProvider.class, method = "updatePreguntaMensaje")
+        void updatePreguntaMensaje(PreguntaMensaje preguntaMensaje) throws DataAccessException;
 }

@@ -10,6 +10,7 @@ import com.lafortuna.delsaber.exception.NoContentException;
 import com.lafortuna.delsaber.model.ConcursoDTO;
 import com.lafortuna.delsaber.model.ConcursoParticipanteDTO;
 import com.lafortuna.delsaber.model.Nivel;
+import com.lafortuna.delsaber.model.NivelDTO;
 import com.lafortuna.delsaber.repository.ConcursoMapper;
 import com.lafortuna.delsaber.repository.NivelMapper;
 import com.lafortuna.delsaber.service.GenericService;
@@ -87,5 +88,13 @@ public class ConcursoServiceImpl extends GenericService implements ConcursoServi
             this.log.error(this.getClass().getName() + "updateNivel :" + e);
             throw new InternalServerException("Error al modificar Nivel");
         }
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<NivelDTO> getNivelesByIdConcurso(Integer idConcurso) {
+        List<NivelDTO> nivelList = this.nivelMapper.getNivelesByIdConcurso(idConcurso);
+        if(listaValida(nivelList)){ return nivelList;}
+        throw new NoContentException(Constant.NO_CONTENT_MESSAGE);
     }
 }
